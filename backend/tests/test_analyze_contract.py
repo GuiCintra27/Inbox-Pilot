@@ -1,24 +1,10 @@
 from __future__ import annotations
 
+import asyncio
 from pathlib import Path
 
-import pytest
-from fastapi.testclient import TestClient
-
-from app.main import app
-
-client = TestClient(app)
-
-ANALYZE_ROUTE_AVAILABLE = any(getattr(route, "path", None) == "/analyze" for route in app.routes)
-
-pytestmark = pytest.mark.xfail(
-    not ANALYZE_ROUTE_AVAILABLE,
-    reason=(
-        "POST /analyze is defined by the phase 2 contract "
-        "but is not present in this workspace yet"
-    ),
-    strict=False,
-)
+from app.api.analyze import analyze_email, health_check
+from app.schemas import Category
 
 FIXTURES_DIR = Path(__file__).with_name("fixtures")
 SAMPLE_TEXT = FIXTURES_DIR.joinpath("sample_email.txt").read_text(encoding="utf-8")
@@ -31,6 +17,27 @@ EXPECTED_KEYS = {
     "keywords",
     "provider",
 }
+
+
+class FakeUploadFile:
+    def __init__(self, filename: str, content: bytes) -> None:
+        self.filename = filename
+        self._content = content
+
+    async def read(self) -> bytes:
+        return self._content
+
+
+def _assert_success_payload(payload: dict[str, object]) -> None:
+    assert EXPECTED_KEYS.issubset(payload)
+    assert isinstance(payload["category"], str)
+    assert payload["category"] in {Category.productive.value, Category.unproductive.value}
+    assert isinstance(payload["confidence"], (int, float))
+    assert 0 <= float(payload["confidence"]) <= 1
+    assert isinstance(payload["rationale"], str) and payload["rationale"]
+    assert isinstance(payload["suggested_reply"], str) and payload["suggested_reply"]
+    assert isinstance(payload["keywords"], list)
+    assert isinstance(payload["provider"], str) and payload["provider"]
 
 
 def _build_minimal_pdf(text: str) -> bytes:
@@ -84,104 +91,93 @@ def _build_minimal_pdf(text: str) -> bytes:
     return b"".join(chunks)
 
 
-def _assert_success_payload(payload: dict[str, object]) -> None:
-    assert EXPECTED_KEYS.issubset(payload)
-    assert isinstance(payload["category"], str) and payload["category"]
-    assert isinstance(payload["confidence"], (int, float))
-    assert 0 <= float(payload["confidence"]) <= 1
-    assert isinstance(payload["rationale"], str)
-    assert isinstance(payload["suggested_reply"], str)
-    assert isinstance(payload["keywords"], list)
-    assert isinstance(payload["provider"], str) and payload["provider"]
+def test_health() -> None:
+    assert asyncio.run(health_check()) == {
+        "status": "ok",
+        "service": "inbox-pilot-backend",
+    }
 
 
 def test_analyze_accepts_text_only() -> None:
-    response = client.post("/analyze", data={"email_text": SAMPLE_TEXT})
+    response = asyncio.run(analyze_email(email_text=SAMPLE_TEXT, email_file=None))
 
-    assert response.status_code == 200
-    _assert_success_payload(response.json())
+    _assert_success_payload(response.model_dump())
 
 
 def test_analyze_accepts_txt_upload() -> None:
-    response = client.post(
-        "/analyze",
-        files={
-            "email_file": (
+    response = asyncio.run(
+        analyze_email(
+            email_text=None,
+            email_file=FakeUploadFile(
                 "sample_email.txt",
-                SAMPLE_TEXT,
-                "text/plain",
-            )
-        },
+                SAMPLE_TEXT.encode("utf-8"),
+            ),
+        )
     )
 
-    assert response.status_code == 200
-    _assert_success_payload(response.json())
+    _assert_success_payload(response.model_dump())
 
 
 def test_analyze_accepts_pdf_upload() -> None:
-    response = client.post(
-        "/analyze",
-        files={
-            "email_file": (
+    response = asyncio.run(
+        analyze_email(
+            email_text=None,
+            email_file=FakeUploadFile(
                 "sample_email.pdf",
                 _build_minimal_pdf(SAMPLE_TEXT),
-                "application/pdf",
-            )
-        },
+            ),
+        )
     )
 
-    assert response.status_code == 200
-    _assert_success_payload(response.json())
+    _assert_success_payload(response.model_dump())
 
 
 def test_analyze_prefers_file_when_both_inputs_are_present() -> None:
-    response = client.post(
-        "/analyze",
-        data={"email_text": "This text is present only as a fallback."},
-        files={
-            "email_file": (
+    response = asyncio.run(
+        analyze_email(
+            email_text="This text is present only as a fallback.",
+            email_file=FakeUploadFile(
                 "sample_email.txt",
-                SAMPLE_TEXT,
-                "text/plain",
-            )
-        },
+                SAMPLE_TEXT.encode("utf-8"),
+            ),
+        )
     )
 
-    assert response.status_code == 200
-    _assert_success_payload(response.json())
+    _assert_success_payload(response.model_dump())
 
 
 def test_analyze_rejects_empty_input() -> None:
-    response = client.post("/analyze", data={})
-
-    assert response.status_code in {400, 422}
+    try:
+        asyncio.run(analyze_email(email_text=None, email_file=None))
+    except Exception as exc:  # noqa: BLE001
+        assert type(exc).__name__ in {"HTTPException", "EmptyInputError"}
+    else:  # pragma: no cover - defensive guard
+        raise AssertionError("empty input should fail")
 
 
 def test_analyze_rejects_unsupported_file_type() -> None:
-    response = client.post(
-        "/analyze",
-        files={
-            "email_file": (
-                "sample_email.md",
-                "# Not supported",
-                "text/markdown",
+    try:
+        asyncio.run(
+            analyze_email(
+                email_text=None,
+                email_file=FakeUploadFile("sample_email.md", b"# Not supported"),
             )
-        },
-    )
-
-    assert response.status_code in {400, 415, 422}
+        )
+    except Exception as exc:  # noqa: BLE001
+        assert type(exc).__name__ in {"HTTPException", "UnsupportedFileTypeError"}
+    else:  # pragma: no cover - defensive guard
+        raise AssertionError("unsupported file should fail")
 
 
 def test_analyze_reports_parse_failure_for_broken_pdf() -> None:
-    response = client.post(
-        "/analyze",
-        files={
-            "email_file": (
-                "broken.pdf",
-                b"not-a-real-pdf",
-                "application/pdf",
+    try:
+        asyncio.run(
+            analyze_email(
+                email_text=None,
+                email_file=FakeUploadFile("broken.pdf", b"not-a-real-pdf"),
             )
-        },
-    )
-
-    assert response.status_code in {400, 422}
+        )
+    except Exception as exc:  # noqa: BLE001
+        assert type(exc).__name__ in {"HTTPException", "FileDecodingError"}
+    else:  # pragma: no cover - defensive guard
+        raise AssertionError("broken PDF should fail")

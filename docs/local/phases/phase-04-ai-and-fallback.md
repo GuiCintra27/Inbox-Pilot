@@ -57,6 +57,23 @@ Conectar o backend ao provedor de AI principal e garantir resiliência por meio 
 - falha externa não derruba a API
 - comportamento fica documentado sem ambiguidade
 
+## Provider contract
+
+Valores esperados para `provider` na Fase 4:
+
+- `openai:<model>` para o caminho principal
+- `fallback:no-openai-key` quando a chave não estiver disponível
+- `fallback:provider-error` quando o provedor externo falhar
+- `fallback:invalid-response` quando a resposta externa não puder ser normalizada
+
+## Test strategy
+
+A suíte desta fase valida três níveis:
+
+- caminho OpenAI mockado sem chamada externa real
+- caminhos de fallback quando a credencial não existe ou o provedor falha
+- degradação controlada quando a resposta do provedor não respeita o contrato
+
 ## Riscos
 
 - prompt gerar respostas fora do schema

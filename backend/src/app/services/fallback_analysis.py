@@ -2,22 +2,14 @@ from __future__ import annotations
 
 import re
 from collections import Counter
-from typing import Annotated
 
-from fastapi import APIRouter, File, Form, HTTPException, UploadFile, status
+from app.domain.analysis import AnalysisResult
+from app.domain.ingestion import IngestedContent
+from app.schemas import Category
 
-from app.schemas import AnalyzeResponse, Category
-from app.services import (
-    EmptyInputError,
-    FileDecodingError,
-    IngestionError,
-    UnsupportedFileTypeError,
-    ingest_email_content,
-)
-
-router = APIRouter(prefix="")
-
-PROVIDER_NAME = "rule-based-preview"
+FALLBACK_PROVIDER_NO_OPENAI_KEY = "fallback:no-openai-key"
+FALLBACK_PROVIDER_PROVIDER_ERROR = "fallback:provider-error"
+FALLBACK_PROVIDER_INVALID_RESPONSE = "fallback:invalid-response"
 
 TEXTUAL_POSITIVE_MARKERS = {
     "approve": 2,
@@ -56,36 +48,6 @@ TEXTUAL_NEGATIVE_MARKERS = {
     "parabens": 2,
     "parabéns": 2,
     "congratulations": 2,
-}
-
-ENGLISH_MARKERS = {
-    "hello",
-    "thanks",
-    "thank you",
-    "update",
-    "status",
-    "attached",
-    "attachment",
-    "request",
-    "support",
-    "issue",
-    "ticket",
-    "deadline",
-    "please",
-}
-
-PORTUGUESE_MARKERS = {
-    "olá",
-    "obrigado",
-    "atualização",
-    "anexo",
-    "pedido",
-    "solicitação",
-    "suporte",
-    "ajuda",
-    "pendência",
-    "prazo",
-    "favor",
 }
 
 STOPWORDS = {
@@ -144,63 +106,12 @@ STOPWORDS = {
 }
 
 
-@router.get("/health")
-async def health_check() -> dict[str, str]:
-    return {"status": "ok", "service": "inbox-pilot-backend"}
-
-
-@router.post("/analyze", response_model=AnalyzeResponse)
-async def analyze_email(
-    email_text: Annotated[str | None, Form()] = None,
-    email_file: Annotated[UploadFile | None, File()] = None,
-) -> AnalyzeResponse:
-    try:
-        file_content = None
-        file_name = None
-        if email_file is not None:
-            file_name = email_file.filename
-            file_content = await email_file.read()
-            if not file_content:
-                raise HTTPException(
-                    status_code=status.HTTP_400_BAD_REQUEST,
-                    detail="O arquivo enviado está vazio.",
-                )
-
-        ingested_content = ingest_email_content(
-            email_text=email_text,
-            email_file_name=file_name,
-            email_file_content=file_content,
-        )
-    except HTTPException:
-        raise
-    except (EmptyInputError, UnsupportedFileTypeError, FileDecodingError) as exc:
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(exc)) from exc
-    except IngestionError as exc:  # pragma: no cover - defensive guard
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(exc)) from exc
-
-    category, confidence, rationale, keywords, suggested_reply = _classify_email(
-        normalized_text=ingested_content.text,
-        language=ingested_content.language,
-        source=ingested_content.source,
-    )
-
-    return AnalyzeResponse(
-        category=category,
-        confidence=confidence,
-        rationale=rationale,
-        suggested_reply=suggested_reply,
-        keywords=keywords,
-        provider=PROVIDER_NAME,
-    )
-
-
-def _classify_email(
+def analyze_with_fallback(
     *,
-    normalized_text: str,
-    language: str,
-    source: str,
-) -> tuple[Category, float, str, list[str], str]:
-    lowered = normalized_text.lower()
+    ingested_content: IngestedContent,
+    provider: str,
+) -> AnalysisResult:
+    lowered = ingested_content.text.lower()
 
     positive_score = 0
     negative_score = 0
@@ -217,10 +128,10 @@ def _classify_email(
             negative_score += score
             matched_negative.append(marker)
 
-    if "?" in normalized_text:
+    if "?" in ingested_content.text:
         positive_score += 1
 
-    if len(normalized_text.split()) < 8 and positive_score == 0:
+    if len(ingested_content.text.split()) < 8 and positive_score == 0:
         negative_score += 1
 
     if positive_score >= negative_score:
@@ -229,18 +140,36 @@ def _classify_email(
         rationale = "A mensagem indica pedido de ação, atualização ou encaminhamento operacional."
         if matched_positive:
             rationale = f"{rationale} Marcadores: {', '.join(sorted(set(matched_positive)))}."
-        suggested_reply = _build_reply(category=category, language=language, source=source)
-        keywords = _build_keywords(normalized_text, matched_positive)
-        return category, round(confidence, 2), rationale, keywords, suggested_reply
+        return AnalysisResult(
+            category=category,
+            confidence=round(confidence, 2),
+            rationale=rationale,
+            suggested_reply=_build_reply(
+                category=category,
+                language=ingested_content.language,
+                source=ingested_content.source,
+            ),
+            keywords=_build_keywords(ingested_content.text, matched_positive),
+            provider=provider,
+        )
 
     category = Category.unproductive
     confidence = min(0.95, 0.62 + 0.06 * (negative_score - positive_score + 1))
     rationale = "A mensagem tem caráter social/informativo e não exige ação imediata."
     if matched_negative:
         rationale = f"{rationale} Marcadores: {', '.join(sorted(set(matched_negative)))}."
-    suggested_reply = _build_reply(category=category, language=language, source=source)
-    keywords = _build_keywords(normalized_text, matched_negative)
-    return category, round(confidence, 2), rationale, keywords, suggested_reply
+    return AnalysisResult(
+        category=category,
+        confidence=round(confidence, 2),
+        rationale=rationale,
+        suggested_reply=_build_reply(
+            category=category,
+            language=ingested_content.language,
+            source=ingested_content.source,
+        ),
+        keywords=_build_keywords(ingested_content.text, matched_negative),
+        provider=provider,
+    )
 
 
 def _build_keywords(text: str, markers: list[str]) -> list[str]:

@@ -1,3 +1,4 @@
+from app.domain.analysis import AnalysisResult
 from app.domain.ingestion import (
     EmptyInputError,
     FileDecodingError,
@@ -9,6 +10,7 @@ from app.domain.ingestion import (
 )
 
 __all__ = [
+    "AnalysisResult",
     "EmptyInputError",
     "FileDecodingError",
     "IngestedContent",

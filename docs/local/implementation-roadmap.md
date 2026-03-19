@@ -78,7 +78,7 @@ Documento detalhado:
 
 ### Fase 4 — AI and fallback
 
-Status: `planned`
+Status: `completed`
 
 Objetivo:
 - integrar OpenAI e garantir fallback local resiliente

@@ -5,7 +5,9 @@
 - Frontend: Next.js com App Router
 - Backend: FastAPI
 - Parsing de arquivo: `.txt` e `.pdf`
-- Engine de análise: `rule-based-preview` nesta fase, com provedor externo entrando na fase de AI
+- Engine de análise:
+  - Fase 2: `rule-based-preview`
+  - Fase 4: OpenAI com fallback local resiliente
 - Deploy: Vercel + Render
 - Entrega: GitHub Actions + releases semânticas
 
@@ -49,11 +51,21 @@ Payload principal:
 - `keywords`
 - `provider`
 
+## Contrato de provider na Fase 4
+
+O campo `provider` identifica o caminho real que produziu a análise.
+
+Valores documentados para a Fase 4:
+
+- `openai:<model>` quando a chamada ao provedor externo é bem-sucedida
+- `fallback:no-openai-key` quando a análise cai para fallback por ausência de credencial
+- `fallback:provider-error` quando a análise cai para fallback por falha do provedor externo
+- `fallback:invalid-response` quando a resposta do provedor não pode ser adaptada ao schema esperado
+
 Nota de contrato:
 
-- `provider` identifica a engine que produziu a análise
-- na Fase 2, o valor esperado é um identificador de preview, como `rule-based-preview`
-- na Fase 4, esse mesmo campo passa a identificar o provedor de AI ativo
+- o frontend consome esse campo para rastreabilidade da demo
+- a estrutura do payload não muda entre o caminho principal e o fallback
 
 ## Responsabilidades por camada
 

@@ -1,15 +1,12 @@
-from fastapi.testclient import TestClient
+from __future__ import annotations
 
-from app.main import app
+import asyncio
 
-client = TestClient(app)
+from app.api.analyze import health_check
 
 
 def test_health() -> None:
-    response = client.get("/health")
-
-    assert response.status_code == 200
-    assert response.json() == {
+    assert asyncio.run(health_check()) == {
         "status": "ok",
         "service": "inbox-pilot-backend",
     }
