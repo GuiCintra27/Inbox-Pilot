@@ -14,7 +14,7 @@ const intakeSteps = [
 const signalRows = [
   { label: "Categoria", value: "Produtivo" },
   { label: "Confiança", value: "95%" },
-  { label: "Provider", value: "rule-based-preview" }
+  { label: "Provider", value: "openai:gpt-5-mini" }
 ];
 
 export function ProductSnapshot() {
@@ -37,8 +37,8 @@ export function ProductSnapshot() {
           Uma superfície clara para triagem de emails operacionais.
         </CardTitle>
         <CardDescription className="max-w-xl text-base leading-7 text-muted-foreground">
-          O fluxo abaixo já deixa espaço para o formulário principal, o painel de resultado e os estados
-          de carregamento e erro que entram nas próximas slices.
+          O fluxo abaixo representa a experiência final da demo: entrada, processamento e
+          leitura do resultado em um único espaço.
         </CardDescription>
       </CardHeader>
       <CardContent className="relative grid gap-4 pt-6 sm:grid-cols-[1.05fr_0.95fr]">
@@ -46,15 +46,15 @@ export function ProductSnapshot() {
           <div className="mb-4 flex items-center justify-between gap-3">
             <div>
               <p className="text-xs uppercase tracking-[0.22em] text-muted-foreground">
-                Entrada
+                Entrada do email
               </p>
               <p className="mt-1 text-sm font-medium text-foreground">
-                Área reservada para formulário e upload
+                Texto livre, upload e exemplos prontos no mesmo fluxo
               </p>
             </div>
             <Button variant="outline" size="sm" className="pointer-events-none gap-2">
               <Upload className="h-4 w-4" />
-              Conectar depois
+              Fluxo validado
             </Button>
           </div>
           <div className="grid gap-3">
@@ -90,7 +90,9 @@ export function ProductSnapshot() {
               <p className="text-xs uppercase tracking-[0.22em] text-background/60">
                 Resultado
               </p>
-              <p className="mt-1 text-sm font-medium text-background">Painel reservado para a leitura final</p>
+              <p className="mt-1 text-sm font-medium text-background">
+                Painel com categoria, confiança e resposta sugerida
+              </p>
             </div>
             <div className="rounded-full border border-background/15 bg-background/10 p-2">
               <Wand2 className="h-4 w-4 text-amber-200" />
@@ -107,14 +109,15 @@ export function ProductSnapshot() {
           <div className="mt-5 rounded-3xl border border-background/10 bg-background/5 p-4">
             <div className="flex items-center gap-2 text-sm font-medium text-background">
               <Sparkles className="h-4 w-4 text-amber-200" />
-              Pronto para conectar ao painel de análise
+              Pronto para a análise em tempo real
             </div>
             <p className="mt-2 text-sm leading-6 text-background/75">
-              Aqui entra a justificativa, a resposta sugerida e a lista de keywords da análise.
+              A leitura final combina justificativa, resposta sugerida e keywords em uma única
+              superfície para acelerar a próxima ação.
             </p>
           </div>
           <Button className="mt-5 w-full rounded-full bg-background text-foreground hover:bg-background/90">
-            Visualizar fluxo completo
+            Ver a leitura completa
             <ArrowRight className="h-4 w-4" />
           </Button>
         </div>

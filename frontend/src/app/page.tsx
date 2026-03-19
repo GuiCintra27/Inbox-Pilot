@@ -43,7 +43,7 @@ const productSignals = [
 const trustNotes = [
   "O backend aceita `email_text`, `email_file` ou ambos no mesmo envio.",
   "A resposta traz categoria, confiança, justificativa, keywords e sugestão de resposta.",
-  "A experiência visual foi pensada para parecer produto, não dashboard genérico."
+  "O provider exibido no resultado ajuda a rastrear o caminho real usado na análise."
 ];
 
 export default function HomePage() {
@@ -144,7 +144,7 @@ export default function HomePage() {
           <Card className="border-border/70 bg-card/85 backdrop-blur">
             <CardHeader className="gap-3">
               <CardTitle className="font-display text-2xl tracking-tight sm:text-3xl">
-                O que esta interface já comunica
+                O que a interface entrega com clareza
               </CardTitle>
               <CardDescription className="max-w-2xl text-base leading-7">
                 O fluxo está organizado para mostrar valor em poucos segundos, sem depender de
@@ -167,7 +167,7 @@ export default function HomePage() {
           <Card className="border-border/70 bg-card/85 backdrop-blur">
             <CardHeader className="gap-3">
               <CardTitle className="font-display text-2xl tracking-tight sm:text-3xl">
-                Leitura rápida para a demo
+                Sinais de produto para a demo
               </CardTitle>
               <CardDescription className="text-base leading-7">
                 A tela foi desenhada para fazer a transição entre problema, demonstração e
@@ -192,7 +192,7 @@ export default function HomePage() {
           <Card className="border-border/70 bg-card/85 backdrop-blur">
             <CardHeader className="gap-3">
               <CardTitle className="font-display text-2xl tracking-tight sm:text-3xl">
-                Jornada do produto
+                Fluxo ponta a ponta
               </CardTitle>
               <CardDescription className="max-w-3xl text-base leading-7">
                 Entrada, processamento e resultado continuam legíveis mesmo em telas menores, sem

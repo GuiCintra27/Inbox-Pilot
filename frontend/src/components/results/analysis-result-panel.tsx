@@ -53,7 +53,8 @@ function EmptyState() {
       <CardHeader>
         <CardTitle className="font-display text-2xl tracking-tight">Resultado da análise</CardTitle>
         <CardDescription>
-          Envie um email para ver categoria, confiança, justificativa e resposta sugerida em um painel único.
+          Envie um email para ver categoria, confiança, justificativa e resposta sugerida em um
+          painel único.
         </CardDescription>
       </CardHeader>
       <CardContent className="grid gap-4 sm:grid-cols-3">
@@ -96,7 +97,10 @@ export function AnalysisResultPanel({ result, isLoading = false, errorMessage = 
             <AlertTriangle className="h-5 w-5" />
             Não foi possível concluir a análise
           </CardTitle>
-          <CardDescription>{errorMessage}</CardDescription>
+          <CardDescription className="space-y-2 leading-7 text-muted-foreground">
+            <span>{errorMessage}</span>
+            <span className="block">Revise o texto ou o arquivo enviado e tente novamente.</span>
+          </CardDescription>
         </CardHeader>
       </Card>
     );
@@ -107,10 +111,25 @@ export function AnalysisResultPanel({ result, isLoading = false, errorMessage = 
       <Card className={cn("border-border/70 bg-card/80 backdrop-blur", className)}>
         <CardHeader>
           <CardTitle className="font-display text-2xl tracking-tight">Analisando email</CardTitle>
-          <CardDescription>Estamos preparando o retorno com categoria, confiança e resposta sugerida.</CardDescription>
+          <CardDescription>
+            Estamos preparando o retorno com categoria, confiança e resposta sugerida.
+          </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
-          <div className="h-40 animate-pulse rounded-3xl bg-muted/70" />
+          <div className="rounded-3xl border border-border/70 bg-background/80 p-5">
+            <div className="flex items-center justify-between gap-4">
+              <div className="space-y-2">
+                <div className="h-3 w-28 animate-pulse rounded-full bg-muted" />
+                <div className="h-8 w-72 max-w-full animate-pulse rounded-xl bg-muted" />
+              </div>
+              <div className="h-16 w-24 animate-pulse rounded-2xl bg-muted" />
+            </div>
+            <div className="mt-4 space-y-3">
+              <div className="h-3 w-full animate-pulse rounded-full bg-muted" />
+              <div className="h-3 w-5/6 animate-pulse rounded-full bg-muted" />
+              <div className="h-3 w-4/6 animate-pulse rounded-full bg-muted" />
+            </div>
+          </div>
           <div className="grid gap-4 sm:grid-cols-2">
             <div className="h-24 animate-pulse rounded-3xl bg-muted/70" />
             <div className="h-24 animate-pulse rounded-3xl bg-muted/70" />
@@ -177,12 +196,15 @@ export function AnalysisResultPanel({ result, isLoading = false, errorMessage = 
           <Keywords keywords={result.keywords} />
         </section>
 
-        <div className="flex flex-wrap items-center gap-2 text-xs uppercase tracking-[0.22em] text-muted-foreground">
-          <span>Provider</span>
-          <span aria-hidden="true">•</span>
-          <span>{result.provider}</span>
-        </div>
-      </CardContent>
-    </Card>
+          <div className="flex flex-wrap items-center gap-2 text-xs uppercase tracking-[0.22em] text-muted-foreground">
+            <span>Provider</span>
+            <span aria-hidden="true">•</span>
+            <span>{result.provider}</span>
+          </div>
+          <p className="text-sm leading-6 text-muted-foreground">
+            O provider indica o caminho real usado na análise e ajuda a rastrear a origem do resultado.
+          </p>
+        </CardContent>
+      </Card>
   );
 }

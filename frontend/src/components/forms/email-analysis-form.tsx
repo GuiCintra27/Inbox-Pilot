@@ -99,8 +99,8 @@ export function EmailAnalysisForm({
         </Badge>
         <CardTitle className="text-2xl tracking-tight">Analisar email</CardTitle>
         <CardDescription>
-          Cole o texto do email, envie um arquivo .txt ou .pdf, ou use os dois campos juntos.
-          O backend decide a precedência.
+          Cole o texto do email, envie um arquivo `.txt` ou `.pdf`, ou use os dois campos juntos.
+          O backend mantém a precedência do arquivo e a interface mostra o resultado em seguida.
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -117,8 +117,8 @@ export function EmailAnalysisForm({
                 clearError();
                 setIsSuccess(false);
               }}
-              placeholder="Cole aqui o conteúdo do email para classificação"
-              className="min-h-[220px] resize-y"
+              placeholder="Exemplo: confirme se a fatura pode ser aprovada hoje e envie o status ao fornecedor."
+              className="min-h-[220px] resize-y rounded-3xl border-border/80 bg-background/90 p-4 text-base leading-7 shadow-sm focus-visible:ring-2"
             />
             <p className="text-xs leading-5 text-muted-foreground">
               Aceita texto livre, inclusive junto de um arquivo anexado.
@@ -144,6 +144,7 @@ export function EmailAnalysisForm({
 
             <button
               type="button"
+              aria-describedby={`${fileInputId}-help`}
               className={`group flex min-h-36 w-full flex-col items-center justify-center rounded-3xl border border-dashed px-5 py-6 text-left transition-colors ${
                 isDragging
                   ? "border-foreground bg-foreground/5"
@@ -171,13 +172,13 @@ export function EmailAnalysisForm({
                 setIsDragging(false);
                 handleDrop(event.dataTransfer.files);
               }}
-            >
+              >
               <div className="flex items-center gap-3 text-sm font-medium text-foreground">
                 <FileUp className="h-4 w-4" />
                 <span>Arraste o arquivo para cá ou clique para selecionar</span>
               </div>
-              <p className="mt-2 max-w-md text-center text-xs leading-5 text-muted-foreground">
-                O upload pode ser combinado com o texto colado. O backend usa o arquivo como fonte principal.
+              <p id={`${fileInputId}-help`} className="mt-2 max-w-md text-center text-xs leading-5 text-muted-foreground">
+                O upload pode ser combinado com o texto colado. Se ambos forem enviados, o backend usa o arquivo como fonte principal.
               </p>
             </button>
 
@@ -225,13 +226,13 @@ export function EmailAnalysisForm({
 
           <div aria-live="polite" className="grid gap-3">
             {error ? (
-              <div className="rounded-2xl border border-destructive/30 bg-destructive/5 px-4 py-3 text-sm text-destructive">
+              <div className="rounded-2xl border border-destructive/30 bg-destructive/5 px-4 py-3 text-sm leading-6 text-destructive">
                 {error.message}
               </div>
             ) : null}
             {isSuccess ? (
-              <div className="rounded-2xl border border-emerald-500/30 bg-emerald-500/8 px-4 py-3 text-sm text-emerald-800">
-                Análise enviada com sucesso. O resultado pode ser renderizado pelo painel ao lado.
+              <div className="rounded-2xl border border-emerald-500/30 bg-emerald-500/8 px-4 py-3 text-sm leading-6 text-emerald-800">
+                Análise enviada com sucesso. O painel ao lado já exibe a categoria, a confiança e a resposta sugerida.
               </div>
             ) : null}
           </div>
