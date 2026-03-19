@@ -7,7 +7,7 @@ A solução será dividida em duas aplicações com responsabilidades bem defini
 - Frontend em Next.js para experiência do usuário e apresentação da demo
 - Backend em FastAPI para ingestão, parsing, classificação e geração de resposta
 
-Essa separação permite elevar a qualidade visual do case sem comprometer a clareza do backend.
+Essa separação permite elevar a qualidade visual do produto sem comprometer a clareza do backend.
 
 ## Frontend
 
@@ -63,7 +63,7 @@ Fluxo principal:
 - CI via GitHub Actions para validar frontend e backend
 - Preview deploy do frontend em pull requests
 - Deploy contínuo da branch principal para os ambientes publicados
-- Releases versionadas para registrar evolução do case
+- Releases versionadas para registrar evolução do produto
 
 ## Decisões de escopo
 

@@ -55,7 +55,7 @@ Automatizar validação, preview, deploy e releases para demonstrar maturidade d
 
 ## Riscos
 
-- pipeline virar custo alto demais para um case pequeno
+- pipeline virar custo alto demais para um produto ainda em estágio inicial
 - configurar deploy cedo demais com apps ainda instáveis
 - versionamento inconsistente por commits sem padrão
 

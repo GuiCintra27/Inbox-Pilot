@@ -1,8 +1,8 @@
-# Phase 06 — Polish and submission
+# Phase 06 — Polish and launch readiness
 
 ## Objetivo
 
-Fechar o case para submissão com estabilidade mínima, narrativa forte e qualidade visual/operacional suficiente para gravação e avaliação externa.
+Fechar o produto com estabilidade mínima, narrativa forte e qualidade visual/operacional suficiente para demonstração e apresentação externa.
 
 ## Escopo incluído
 
@@ -13,7 +13,7 @@ Fechar o case para submissão com estabilidade mínima, narrativa forte e qualid
 - revisão de acessibilidade básica
 - alinhamento final da documentação
 - checklist do vídeo
-- checklist de submissão
+- checklist de lançamento
 
 ## Fora de escopo
 
@@ -30,7 +30,7 @@ Fechar o case para submissão com estabilidade mínima, narrativa forte e qualid
 - frontend e backend publicados funcionando juntos
 - documentação final coerente
 - checklist de vídeo
-- checklist de formulário de submissão
+- checklist de publicação e apresentação
 - lista curta de smoke tests aprovados
 
 ## Checklist de implementação
@@ -42,7 +42,7 @@ Fechar o case para submissão com estabilidade mínima, narrativa forte e qualid
 - validar erros mais prováveis
 - alinhar README ao estado final
 - preparar roteiro curto do vídeo
-- preparar checklist do que enviar no formulário
+- preparar checklist do que precisa estar pronto para apresentação pública
 
 ## Critérios de aceite
 
@@ -88,7 +88,7 @@ Não pode alterar:
 
 Responsável por:
 - documentação final
-- checklist de submissão
+- checklist de lançamento
 - roteiro de demo
 
 Não pode alterar:

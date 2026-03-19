@@ -2,7 +2,7 @@
 
 Ponto de entrada principal para a documentação pública do projeto.
 
-## Visão do case
+## Visão do produto
 
 - [Visão do produto](./PRODUCT-OVERVIEW.md)
 - [Fluxo do usuário](./USER-FLOW.md)

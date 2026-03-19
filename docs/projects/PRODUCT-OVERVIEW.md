@@ -2,9 +2,9 @@
 
 ## Problema
 
-O case parte de um cenário em que uma empresa do setor financeiro recebe um grande volume de emails diariamente. Parte dessas mensagens exige ação operacional, enquanto outra parte não demanda tratamento imediato.
+O Inbox Pilot atende a um cenário em que uma empresa do setor financeiro recebe um grande volume de emails diariamente. Parte dessas mensagens exige ação operacional, enquanto outra parte não demanda tratamento imediato.
 
-O desafio é reduzir o trabalho manual de leitura e triagem dessas mensagens.
+O objetivo do produto é reduzir o trabalho manual de leitura e triagem dessas mensagens.
 
 ## Proposta da solução
 
@@ -20,8 +20,8 @@ Construir uma aplicação web capaz de:
 
 ## Público da demo
 
-- avaliadores técnicos
-- recruiter
+- times operacionais
+- lideranças de produto e operações
 - qualquer pessoa que precise entender rapidamente o valor da solução
 
 ## Diferenciais que a demo deve evidenciar

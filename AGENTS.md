@@ -4,7 +4,7 @@ README para agentes de código trabalhando neste repositório.
 
 ## Visão geral do projeto
 
-Este repositório guarda o case do Inbox Pilot, uma solução de automação de triagem de emails para avaliação técnica.
+Este repositório guarda o Inbox Pilot, uma solução de automação de triagem de emails com frontend em Next.js, backend em FastAPI e operação orientada a produto.
 
 Direção oficial do projeto:
 
@@ -63,7 +63,8 @@ Nesta fase, o repositório está sendo reorganizado para refletir a arquitetura-
 
 ## Pontos de atenção
 
-- O material em `docs/local/` não é a vitrine principal para recruiter
+- O material em `docs/local/` não é a vitrine principal do produto
+- O material em `docs/local/` não é a camada principal de apresentação do produto
 - A narrativa pública do projeto deve ficar consistente entre `README.md` e `docs/projects/`
 - Não reintroduzir documentação que descreva a stack descartada como solução-alvo
 - Priorizar clareza da demo e coerência da arquitetura antes de expandir escopo
@@ -72,8 +73,8 @@ Nesta fase, o repositório está sendo reorganizado para refletir a arquitetura-
 ## Estrutura documental
 
 ```text
-email-bot-automation/
-- docs/projects/   # documentação pública do case
+inbox-pilot/
+- docs/projects/   # documentação pública do produto
 - docs/local/      # notas internas e planejamento ativo
 - docs/archive/    # histórico interno encerrado
 - README.md        # resumo executivo da raiz

@@ -1,6 +1,6 @@
 # Inbox Pilot
 
-Inbox Pilot é o nome do produto deste case técnico: uma solução para automatizar a triagem de emails operacionais, classificando mensagens em `Produtivo` ou `Improdutivo` e sugerindo uma resposta automática coerente com o contexto.
+Inbox Pilot é uma solução para automatizar a triagem de emails operacionais, classificando mensagens em `Produtivo` ou `Improdutivo` e sugerindo uma resposta automática coerente com o contexto.
 
 ## Direção do projeto
 
@@ -12,7 +12,7 @@ Inbox Pilot é o nome do produto deste case técnico: uma solução para automat
 
 ## Objetivo desta fase
 
-O repositório está sendo organizado para refletir a arquitetura-alvo do case antes da implementação definitiva.
+O repositório está sendo organizado para refletir a arquitetura-alvo do produto antes da implementação funcional completa.
 
 ## Documentação principal
 

@@ -1,4 +1,4 @@
-# Objetivo inicial do case
+# Objetivo inicial do produto
 
 Objetivo atual de trabalho para este projeto:
 

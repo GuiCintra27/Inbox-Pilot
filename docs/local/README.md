@@ -4,7 +4,7 @@ Esta pasta é reservada para planejamento ativo, rascunhos e notas internas de e
 
 Regras:
 - Manter aqui apenas material de trabalho em andamento.
-- Não tratar esta pasta como a narrativa principal para recruiter.
+- Não tratar esta pasta como a narrativa principal do produto.
 - Promover para `docs/projects/` apenas conteúdo que faça sentido como documentação pública.
 - Quando uma nota interna deixar de ser ativa, mover para `docs/archive/`.
 

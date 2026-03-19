@@ -32,7 +32,7 @@ Modelo adotado:
 
 - SemVer no formato `vMAJOR.MINOR.PATCH`
 
-Uso prático neste case:
+Uso prático neste produto:
 
 - `MAJOR`: quebra relevante de arquitetura ou contrato público
 - `MINOR`: funcionalidade nova visível na solução
@@ -44,7 +44,7 @@ Direção sugerida:
 
 - adotar Conventional Commits
 - gerar changelog automaticamente
-- criar releases no GitHub para checkpoints importantes do case
+- criar releases no GitHub para checkpoints importantes do produto
 
 Ferramenta recomendada:
 

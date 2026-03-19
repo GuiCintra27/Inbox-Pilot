@@ -1,6 +1,6 @@
 # Roadmap de implementação
 
-Este roadmap organiza a execução do case em fases fechadas, com dependências, status e critérios mínimos para avanço.
+Este roadmap organiza a execução do produto em fases fechadas, com dependências, status e critérios mínimos para avanço.
 
 ## Direção geral
 
@@ -109,12 +109,12 @@ Próxima condição para avançar:
 Documento detalhado:
 - `docs/local/phases/phase-05-cicd-and-releases.md`
 
-### Fase 6 — Polish and submission
+### Fase 6 — Polish and launch readiness
 
 Status: `planned`
 
 Objetivo:
-- fechar qualidade de demo, smoke tests e material de submissão
+- fechar qualidade de demo, smoke tests e material de lançamento
 
 Dependências:
 - Fases 2, 3, 4 e 5 concluídas
@@ -123,7 +123,7 @@ Próxima condição para encerrar:
 - frontend publicado consumindo backend publicado com narrativa final pronta
 
 Documento detalhado:
-- `docs/local/phases/phase-06-polish-and-submission.md`
+- `docs/local/phases/phase-06-polish-and-launch-readiness.md`
 
 ## Regras de avanço entre fases
 

@@ -31,7 +31,7 @@ Responsabilidades do deploy:
 
 ## Resultado esperado
 
-O recruiter ou avaliador deve conseguir abrir a URL do frontend, enviar um email e observar a análise completa com mínima fricção.
+Qualquer stakeholder deve conseguir abrir a URL do frontend, enviar um email e observar a análise completa com mínima fricção.
 
 ## Pipeline de entrega
 
