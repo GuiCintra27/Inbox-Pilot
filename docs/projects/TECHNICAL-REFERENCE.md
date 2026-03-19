@@ -6,8 +6,8 @@
 - Backend: FastAPI
 - Parsing de arquivo: `.txt` e `.pdf`
 - Engine de análise:
-  - Fase 2: `rule-based-preview`
-  - Fase 4: OpenAI com fallback local resiliente
+  - OpenAI como provedor principal
+  - fallback local resiliente para degradação controlada
 - Deploy: Vercel + Render
 - Entrega: GitHub Actions + releases semânticas
 
@@ -51,11 +51,11 @@ Payload principal:
 - `keywords`
 - `provider`
 
-## Contrato de provider na Fase 4
+## Contrato de provider
 
 O campo `provider` identifica o caminho real que produziu a análise.
 
-Valores documentados para a Fase 4:
+Valores documentados:
 
 - `openai:<model>` quando a chamada ao provedor externo é bem-sucedida
 - `fallback:no-openai-key` quando a análise cai para fallback por ausência de credencial

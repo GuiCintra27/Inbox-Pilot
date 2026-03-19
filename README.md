@@ -10,9 +10,9 @@ Inbox Pilot é uma solução para automatizar a triagem de emails operacionais, 
 - Integração com API de AI para classificação e geração de resposta
 - Fluxo de CI/CD no GitHub com releases versionadas
 
-## Objetivo desta fase
+## Objetivo do produto
 
-O repositório está sendo organizado para refletir a arquitetura-alvo do produto antes da implementação funcional completa.
+Inbox Pilot está pronto para apresentação: o fluxo principal funciona de ponta a ponta, o CI/CD está ativo, o deploy-alvo está documentado e a narrativa pública foi ajustada para mostrar um produto final, não um protótipo técnico.
 
 ## Documentação principal
 
@@ -29,7 +29,7 @@ O repositório está sendo organizado para refletir a arquitetura-alvo do produt
 
 - [Notas locais de trabalho](./docs/local/README.md)
 
-## Operação da Fase 1
+## Operação local
 
 Estrutura ativa do monorepo:
 
@@ -61,7 +61,16 @@ make backend-test
 
 ## Status
 
-- Arquitetura e narrativa documental em alinhamento
-- Fase 1 estruturada com foundation de frontend, backend e CI/release
-- Fase 5 estruturada com CI/CD, deploy e `release-please`
-- Implementação funcional do produto começa na Fase 2
+- Fluxo principal do produto implementado em frontend e backend
+- Análise com OpenAI e fallback local resiliente
+- CI em PR e push para `main`
+- Deploy-alvo documentado para Vercel e Render
+- Releases semânticas e changelog ancorados em `release-please`
+- Smoke final validado com texto, upload `.txt` e entrada inválida
+
+## Prontidão de lançamento
+
+- Interface pronta para demonstração pública
+- Contrato da API estável entre frontend e backend
+- Documentação operacional e técnica alinhada ao estado real do produto
+- Checklist de lançamento mantido em `docs/local/launch-checklist.md`

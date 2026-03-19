@@ -32,14 +32,22 @@ export class AnalyzeEmailError extends Error {
 
 export function getApiBaseUrl(): string {
   const value = process.env.NEXT_PUBLIC_API_BASE_URL?.trim();
-  if (!value) {
-    throw new AnalyzeEmailError(
-      "NEXT_PUBLIC_API_BASE_URL não está configurada no frontend.",
-      500
-    );
+
+  if (value) {
+    return value.replace(/\/+$/, "");
   }
 
-  return value.replace(/\/+$/, "");
+  if (typeof window !== "undefined") {
+    const hostname = window.location.hostname;
+    if (hostname === "localhost" || hostname === "127.0.0.1") {
+      return "http://127.0.0.1:8000";
+    }
+  }
+
+  throw new AnalyzeEmailError(
+    "NEXT_PUBLIC_API_BASE_URL não está configurada no frontend.",
+    500
+  );
 }
 
 export function buildAnalyzeUrl(baseUrl = getApiBaseUrl()): string {

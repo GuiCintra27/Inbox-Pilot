@@ -67,7 +67,7 @@ Fluxo principal:
 
 ## Decisões de escopo
 
-- Sem autenticação na fase inicial
-- Sem banco de dados na fase inicial
-- Sem fila assíncrona na fase inicial
+- Sem autenticação no escopo atual
+- Sem banco de dados no escopo atual
+- Sem fila assíncrona no escopo atual
 - Foco em demo forte, fluxo simples e boa explicação técnica

@@ -60,7 +60,7 @@ Essa combinação ajuda a demonstrar organização, previsibilidade e maturidade
 2. Se os checks passarem, o merge para `main` fica elegível.
 3. Um push em `main` aciona `release-please`.
 4. Quando houver alterações relevantes, a ferramenta atualiza `CHANGELOG.md`, cria ou atualiza a pull request de release e publica tags semânticas no formato `vMAJOR.MINOR.PATCH`.
-5. A release final é o ponto de corte para submissão e comunicação externa do produto.
+5. Cada release marca um checkpoint público e rastreável da evolução do produto.
 
 ## Governança
 

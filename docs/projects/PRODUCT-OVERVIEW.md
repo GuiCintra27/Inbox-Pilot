@@ -31,7 +31,7 @@ Construir uma aplicação web capaz de:
 - explicação simples do que foi classificado e por quê
 - sensação de produto utilizável, e não apenas protótipo técnico
 
-## O que não é prioridade nesta fase
+## O que não é prioridade agora
 
 - autenticação
 - persistência de histórico

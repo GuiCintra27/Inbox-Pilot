@@ -111,7 +111,7 @@ Documento detalhado:
 
 ### Fase 6 — Polish and launch readiness
 
-Status: `planned`
+Status: `completed`
 
 Objetivo:
 - fechar qualidade de demo, smoke tests e material de lançamento
@@ -121,6 +121,11 @@ Dependências:
 
 Próxima condição para encerrar:
 - frontend publicado consumindo backend publicado com narrativa final pronta
+
+Fechamento:
+- smoke principal validado com texto livre, upload `.txt` e entrada inválida
+- README e documentação pública alinhados ao estado final do produto
+- checklist de lançamento consolidado em `docs/local/launch-checklist.md`
 
 Documento detalhado:
 - `docs/local/phases/phase-06-polish-and-launch-readiness.md`

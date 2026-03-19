@@ -52,6 +52,11 @@ Fechar o produto com estabilidade mínima, narrativa forte e qualidade visual/op
 - documentação pública, técnica e interna contam a mesma história
 - repositório está limpo e navegável
 
+## Artefatos finais
+
+- `docs/local/launch-checklist.md`
+- `docs/local/demo-script.md`
+
 ## Riscos
 
 - querer introduzir feature nova na reta final
