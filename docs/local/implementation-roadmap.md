@@ -61,7 +61,7 @@ Documento detalhado:
 
 ### Fase 3 — Frontend demo
 
-Status: `planned`
+Status: `completed`
 
 Objetivo:
 - construir a jornada principal da demo em Next.js consumindo o backend real

@@ -13,7 +13,9 @@ class Settings(BaseSettings):
 
     app_name: str = "Inbox Pilot Backend"
     app_env: str = "local"
-    allowed_origins: list[str] = Field(default_factory=lambda: ["http://localhost:3000"])
+    allowed_origins: list[str] = Field(
+        default_factory=lambda: ["http://localhost:3000", "http://127.0.0.1:3000"]
+    )
     openai_api_key: str = ""
     openai_model: str = "gpt-5-mini"
 

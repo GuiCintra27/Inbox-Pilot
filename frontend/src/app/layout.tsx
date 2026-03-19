@@ -15,8 +15,8 @@ const spaceGrotesk = Space_Grotesk({
 });
 
 export const metadata: Metadata = {
-  title: "Email Bot Automation",
-  description: "Frontend foundation for the Email Bot Automation case."
+  title: "Inbox Pilot",
+  description: "Operational email triage with structured analysis and suggested replies."
 };
 
 export default function RootLayout({
