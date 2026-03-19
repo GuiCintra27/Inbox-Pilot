@@ -37,10 +37,17 @@ Entregar a API de análise com contrato estável, ingestão de texto e arquivos 
 - mensagens de erro claras
 - suíte de testes de unidade e integração do backend
 
+Observação de fase:
+
+- o campo `provider` deve existir desde já para estabilizar o contrato
+- nesta fase, ele identifica a engine de preview usada pelo backend
+- a troca para provedor externo acontece na Fase 4 sem quebrar o formato da resposta
+
 ## Checklist de implementação
 
 - definir schema de resposta do endpoint
 - definir regra mínima para entrada sem texto/arquivo
+- documentar a precedência entre texto e arquivo
 - implementar parsing de texto livre
 - implementar extractor de `.txt`
 - implementar extractor de `.pdf`
@@ -70,9 +77,9 @@ Entregar a API de análise com contrato estável, ingestão de texto e arquivos 
 
 ## Riscos
 
-- ambiguidade sobre precedência quando texto e arquivo forem enviados juntos
 - PDFs com extração ruim
 - payload instável antes da Fase 3 começar
+- comportamento inconsistente quando texto e arquivo forem enviados juntos
 
 ## Ownership por subagent
 
@@ -107,8 +114,15 @@ Responsável por:
 - testes do backend
 - casos inválidos
 - documentação do contrato técnico interno
+- validação da precedência `email_file` > `email_text`
 
 Não pode alterar:
 - lógica de UI
 - configuração de release
 - comportamento dos extractors sem necessidade de correção de teste
+
+## Decisão de contrato
+
+- quando `email_text` e `email_file` forem enviados juntos, a entrada canônica é o arquivo
+- o texto livre permanece como fallback quando não houver arquivo
+- falhas de parsing do arquivo não devem ser mascaradas por fallback silencioso para o texto

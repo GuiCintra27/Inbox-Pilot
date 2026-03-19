@@ -11,7 +11,7 @@ class Settings(BaseSettings):
         extra="ignore",
     )
 
-    app_name: str = "Email Bot Automation Backend"
+    app_name: str = "Inbox Pilot Backend"
     app_env: str = "local"
     allowed_origins: list[str] = Field(default_factory=lambda: ["http://localhost:3000"])
     openai_api_key: str = ""

@@ -3,14 +3,16 @@ requires = ["setuptools>=68", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "email-bot-automation-backend"
+name = "inbox-pilot-backend"
 version = "0.1.0"
-description = "FastAPI backend for the Email Bot Automation case."
+description = "FastAPI backend for Inbox Pilot."
 readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
   "fastapi>=0.115,<1.0",
+  "pypdf>=5.0,<6.0",
   "pydantic-settings>=2.6,<3.0",
+  "python-multipart>=0.0.9,<1.0",
   "uvicorn[standard]>=0.30,<1.0",
 ]
 

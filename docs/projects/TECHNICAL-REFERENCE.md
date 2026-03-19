@@ -5,7 +5,7 @@
 - Frontend: Next.js com App Router
 - Backend: FastAPI
 - Parsing de arquivo: `.txt` e `.pdf`
-- AI: provedor externo para classificação e resposta sugerida
+- Engine de análise: `rule-based-preview` nesta fase, com provedor externo entrando na fase de AI
 - Deploy: Vercel + Render
 - Entrega: GitHub Actions + releases semânticas
 
@@ -28,7 +28,15 @@ Campos:
 Regra esperada:
 
 - o usuário poderá enviar texto, arquivo ou ambos
-- o backend deverá decidir a precedência de processamento de forma explícita na implementação
+- quando os dois campos vierem juntos, o backend deve priorizar `email_file`
+- `email_text` funciona como entrada principal quando não houver arquivo
+- se a extração do arquivo falhar, a requisição deve falhar de forma explícita em vez de cair silenciosamente para o texto
+
+Erros esperados:
+
+- ausência de texto e arquivo: requisição inválida
+- arquivo em formato não suportado: rejeição clara
+- falha na extração do arquivo: rejeição clara
 
 ## Saída esperada da API
 
@@ -40,6 +48,12 @@ Payload principal:
 - `suggested_reply`
 - `keywords`
 - `provider`
+
+Nota de contrato:
+
+- `provider` identifica a engine que produziu a análise
+- na Fase 2, o valor esperado é um identificador de preview, como `rule-based-preview`
+- na Fase 4, esse mesmo campo passa a identificar o provedor de AI ativo
 
 ## Responsabilidades por camada
 

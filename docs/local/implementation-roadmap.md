@@ -28,7 +28,7 @@ Este roadmap organiza a execução do produto em fases fechadas, com dependênci
 
 ### Fase 1 — Foundation
 
-Status: `planned`
+Status: `completed`
 
 Objetivo:
 - levantar a fundação do monorepo, congelar convenções e preparar CI/release
@@ -45,7 +45,7 @@ Documento detalhado:
 
 ### Fase 2 — Backend contract and ingestion
 
-Status: `planned`
+Status: `completed`
 
 Objetivo:
 - implementar a API de análise com parsing de texto, `.txt` e `.pdf`

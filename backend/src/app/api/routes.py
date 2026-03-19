@@ -1,9 +1,6 @@
 from fastapi import APIRouter
 
+from app.api.analyze import router as analyze_router
+
 router = APIRouter()
-
-
-@router.get("/health")
-async def health_check() -> dict[str, str]:
-    return {"status": "ok", "service": "email-bot-automation-backend"}
-
+router.include_router(analyze_router)
