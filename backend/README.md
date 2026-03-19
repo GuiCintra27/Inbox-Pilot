@@ -5,14 +5,27 @@ FastAPI backend for Inbox Pilot.
 ## Run locally
 
 ```bash
-cd backend
-python -m venv .venv
-source .venv/bin/activate
-pip install -e ".[dev]"
-uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
+make setup
+make backend-dev
 ```
 
-Use `backend/.env.example` as the starting point for local configuration. The AI path is controlled by:
+Se você já tinha um `backend/.env` antigo e quiser recriar o arquivo a partir do exemplo atual:
+
+```bash
+make env-reset
+```
+
+O fluxo recomendado usa a virtualenv `.venv/` criada na raiz do projeto. Se preferir rodar manualmente:
+
+```bash
+python3 -m venv .venv
+.venv/bin/pip install --upgrade pip
+cd backend
+../.venv/bin/pip install -e ".[dev]"
+../.venv/bin/uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
+```
+
+Use `backend/.env.example` como ponto de partida para configuração local. O caminho de AI é controlado por:
 
 - `OPENAI_API_KEY`
 - `OPENAI_MODEL`
