@@ -6,7 +6,8 @@
 - Backend: FastAPI
 - Parsing de arquivo: `.txt` e `.pdf`
 - Engine de análise:
-  - OpenAI como provedor principal
+  - Gemini como provedor principal
+  - OpenRouter como fallback externo
   - fallback local resiliente para degradação controlada
 - Deploy: Vercel + Render
 - Entrega: GitHub Actions + releases semânticas
@@ -57,10 +58,11 @@ O campo `provider` identifica o caminho real que produziu a análise.
 
 Valores documentados:
 
-- `openai:<model>` quando a chamada ao provedor externo é bem-sucedida
-- `fallback:no-openai-key` quando a análise cai para fallback por ausência de credencial
-- `fallback:provider-error` quando a análise cai para fallback por falha do provedor externo
-- `fallback:invalid-response` quando a resposta do provedor não pode ser adaptada ao schema esperado
+- `gemini:<model>` quando a chamada principal ao Gemini é bem-sucedida
+- `openrouter:<model>` quando a análise usa OpenRouter após ausência/falha do provider principal
+- `fallback:no-provider-key` quando não existe credencial para Gemini ou OpenRouter
+- `fallback:provider-error` quando os providers externos falham por transporte/disponibilidade
+- `fallback:invalid-response` quando os providers externos retornam payload incompatível
 
 Nota de contrato:
 

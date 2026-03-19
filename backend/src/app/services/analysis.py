@@ -5,14 +5,15 @@ from app.domain.analysis import AnalysisResult
 from app.domain.ingestion import IngestedContent
 from app.services.fallback_analysis import (
     FALLBACK_PROVIDER_INVALID_RESPONSE,
-    FALLBACK_PROVIDER_NO_OPENAI_KEY,
+    FALLBACK_PROVIDER_NO_PROVIDER_KEY,
     FALLBACK_PROVIDER_PROVIDER_ERROR,
     analyze_with_fallback,
 )
-from app.services.openai_analysis import (
-    OpenAIAnalysisProvider,
-    OpenAIProviderError,
-    OpenAIResponseValidationError,
+from app.services.llm_analysis import (
+    ExternalProviderError,
+    ExternalResponseValidationError,
+    GeminiAnalysisProvider,
+    OpenRouterAnalysisProvider,
 )
 
 
@@ -20,29 +21,52 @@ def analyze_ingested_content(
     ingested_content: IngestedContent,
     *,
     settings: Settings | None = None,
-    provider_factory: type[OpenAIAnalysisProvider] = OpenAIAnalysisProvider,
+    gemini_provider_factory: type[GeminiAnalysisProvider] = GeminiAnalysisProvider,
+    openrouter_provider_factory: type[OpenRouterAnalysisProvider] = OpenRouterAnalysisProvider,
 ) -> AnalysisResult:
     resolved_settings = settings or get_settings()
-    if not resolved_settings.openai_api_key.strip():
-        return analyze_with_fallback(
-            ingested_content=ingested_content,
-            provider=FALLBACK_PROVIDER_NO_OPENAI_KEY,
+    provider_attempted = False
+    saw_validation_error = False
+
+    if resolved_settings.gemini_api_key.strip():
+        provider_attempted = True
+        provider = gemini_provider_factory(
+            api_key=resolved_settings.gemini_api_key,
+            model=resolved_settings.gemini_model,
         )
 
-    provider = provider_factory(
-        api_key=resolved_settings.openai_api_key,
-        model=resolved_settings.openai_model,
+        try:
+            return provider.analyze(ingested_content)
+        except ExternalResponseValidationError:
+            saw_validation_error = True
+        except ExternalProviderError:
+            pass
+
+    if resolved_settings.openrouter_api_key.strip():
+        provider_attempted = True
+        provider = openrouter_provider_factory(
+            api_key=resolved_settings.openrouter_api_key,
+            model=resolved_settings.openrouter_model,
+        )
+
+        try:
+            return provider.analyze(ingested_content)
+        except ExternalResponseValidationError:
+            saw_validation_error = True
+        except ExternalProviderError:
+            pass
+
+    if not provider_attempted:
+        return analyze_with_fallback(
+            ingested_content=ingested_content,
+            provider=FALLBACK_PROVIDER_NO_PROVIDER_KEY,
+        )
+
+    return analyze_with_fallback(
+        ingested_content=ingested_content,
+        provider=(
+            FALLBACK_PROVIDER_INVALID_RESPONSE
+            if saw_validation_error
+            else FALLBACK_PROVIDER_PROVIDER_ERROR
+        ),
     )
-
-    try:
-        return provider.analyze(ingested_content)
-    except OpenAIResponseValidationError:
-        return analyze_with_fallback(
-            ingested_content=ingested_content,
-            provider=FALLBACK_PROVIDER_INVALID_RESPONSE,
-        )
-    except OpenAIProviderError:
-        return analyze_with_fallback(
-            ingested_content=ingested_content,
-            provider=FALLBACK_PROVIDER_PROVIDER_ERROR,
-        )

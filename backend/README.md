@@ -27,8 +27,10 @@ cd backend
 
 Use `backend/.env.example` como ponto de partida para configuração local. O caminho de AI é controlado por:
 
-- `OPENAI_API_KEY`
-- `OPENAI_MODEL`
+- `GEMINI_API_KEY`
+- `GEMINI_MODEL`
+- `OPENROUTER_API_KEY`
+- `OPENROUTER_MODEL`
 
 ## Health check
 
@@ -52,9 +54,10 @@ The `provider` field is part of the public payload and identifies the path that 
 
 Documented provider values for the AI/fallback phase:
 
-- `openai:<model>` for a successful OpenAI response
-- `fallback:no-openai-key` when the request uses the local fallback because no API key is available
-- `fallback:provider-error` when the request uses the local fallback because the external provider failed
-- `fallback:invalid-response` when the request uses the local fallback because the provider response could not be adapted to the contract
+- `gemini:<model>` for a successful Gemini response
+- `openrouter:<model>` when OpenRouter answers after Gemini is unavailable or fails
+- `fallback:no-provider-key` when no external provider key is configured
+- `fallback:provider-error` when the external providers fail
+- `fallback:invalid-response` when the external providers return an invalid payload
 
 Contract tests for `POST /analyze` live under `backend/tests/` and document the supported happy paths and failure modes of the current API.

@@ -8,9 +8,14 @@ import app.services.analysis as analysis_module
 
 
 @pytest.fixture(autouse=True)
-def force_no_openai_key(monkeypatch: pytest.MonkeyPatch) -> None:
+def force_no_provider_keys(monkeypatch: pytest.MonkeyPatch) -> None:
     monkeypatch.setattr(
         analysis_module,
         "get_settings",
-        lambda: SimpleNamespace(openai_api_key="", openai_model="gpt-5-mini"),
+        lambda: SimpleNamespace(
+            gemini_api_key="",
+            gemini_model="gemini-2.5-flash",
+            openrouter_api_key="",
+            openrouter_model="google/gemini-2.0-flash-001",
+        ),
     )

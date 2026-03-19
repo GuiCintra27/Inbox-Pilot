@@ -23,8 +23,10 @@ class Settings(BaseSettings):
             "http://127.0.0.1:3002",
         ]
     )
-    openai_api_key: str = ""
-    openai_model: str = "gpt-5-mini"
+    gemini_api_key: str = ""
+    gemini_model: str = "gemini-2.5-flash"
+    openrouter_api_key: str = ""
+    openrouter_model: str = "google/gemini-2.0-flash-001"
 
     @field_validator("allowed_origins", mode="before")
     @classmethod

@@ -12,7 +12,7 @@ A solução será publicada em duas frentes:
 - frontend: projeto Vercel apontando para o diretório `frontend/`
 - backend: blueprint do Render usando [`render.yaml`](../../render.yaml)
 - variáveis do frontend: `NEXT_PUBLIC_API_BASE_URL`
-- variáveis do backend: `APP_ENV`, `ALLOWED_ORIGINS`, `OPENAI_API_KEY`, `OPENAI_MODEL`
+- variáveis do backend: `APP_ENV`, `ALLOWED_ORIGINS`, `GEMINI_API_KEY`, `GEMINI_MODEL`, `OPENROUTER_API_KEY`, `OPENROUTER_MODEL`
 
 ## Frontend
 

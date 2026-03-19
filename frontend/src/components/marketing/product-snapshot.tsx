@@ -14,7 +14,7 @@ const intakeSteps = [
 const signalRows = [
   { label: "Categoria", value: "Produtivo" },
   { label: "Confiança", value: "95%" },
-  { label: "Provider", value: "openai:gpt-5-mini" }
+  { label: "Provider", value: "gemini:gemini-2.5-flash" }
 ];
 
 export function ProductSnapshot() {

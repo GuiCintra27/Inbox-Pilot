@@ -2,6 +2,7 @@ from app.services.analysis import analyze_ingested_content
 from app.services.fallback_analysis import (
     FALLBACK_PROVIDER_INVALID_RESPONSE,
     FALLBACK_PROVIDER_NO_OPENAI_KEY,
+    FALLBACK_PROVIDER_NO_PROVIDER_KEY,
     FALLBACK_PROVIDER_PROVIDER_ERROR,
     analyze_with_fallback,
 )
@@ -18,29 +19,32 @@ from app.services.ingestion import (
     ingest_file_content,
     ingest_free_text,
 )
-from app.services.openai_analysis import (
-    OpenAIAnalysisProvider,
-    OpenAIAnalysisResult,
-    OpenAIProviderError,
-    OpenAIProviderUnavailableError,
-    OpenAIResponseValidationError,
-    OpenAITransportError,
+from app.services.llm_analysis import (
+    ExternalAnalysisResult,
+    ExternalProviderError,
+    ExternalProviderUnavailableError,
+    ExternalResponseValidationError,
+    ExternalTransportError,
+    GeminiAnalysisProvider,
+    OpenRouterAnalysisProvider,
 )
 
 __all__ = [
     "FALLBACK_PROVIDER_INVALID_RESPONSE",
+    "FALLBACK_PROVIDER_NO_PROVIDER_KEY",
     "FALLBACK_PROVIDER_NO_OPENAI_KEY",
     "FALLBACK_PROVIDER_PROVIDER_ERROR",
     "EmptyInputError",
     "FileDecodingError",
     "IngestedContent",
     "IngestionError",
-    "OpenAIAnalysisProvider",
-    "OpenAIAnalysisResult",
-    "OpenAIProviderError",
-    "OpenAIProviderUnavailableError",
-    "OpenAIResponseValidationError",
-    "OpenAITransportError",
+    "GeminiAnalysisProvider",
+    "OpenRouterAnalysisProvider",
+    "ExternalAnalysisResult",
+    "ExternalProviderError",
+    "ExternalProviderUnavailableError",
+    "ExternalResponseValidationError",
+    "ExternalTransportError",
     "UnsupportedFileTypeError",
     "analyze_ingested_content",
     "analyze_with_fallback",
