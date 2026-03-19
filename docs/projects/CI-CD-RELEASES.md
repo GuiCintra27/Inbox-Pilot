@@ -19,12 +19,14 @@ Checks esperados em pull requests:
 - frontend: lint, typecheck, testes e build
 - backend: lint, testes e validação básica da API
 - verificação de consistência entre contratos principais e documentação técnica
+- falha de um slice bloqueia merge até a correção
 
 ## CD
 
 - Vercel com preview por pull request
 - Vercel em produção a partir da branch principal
 - Render com deploy automático do backend na branch principal
+- variáveis de ambiente de produção devem ser mantidas fora do código-fonte
 
 ## Versionamento
 
@@ -51,3 +53,17 @@ Ferramenta recomendada:
 - `release-please`
 
 Essa combinação ajuda a demonstrar organização, previsibilidade e maturidade de engenharia sem exagerar a complexidade do projeto.
+
+## Fluxo operacional
+
+1. Um pull request dispara CI no GitHub Actions.
+2. Se os checks passarem, o merge para `main` fica elegível.
+3. Um push em `main` aciona `release-please`.
+4. Quando houver alterações relevantes, a ferramenta atualiza `CHANGELOG.md`, cria ou atualiza a pull request de release e publica tags semânticas no formato `vMAJOR.MINOR.PATCH`.
+5. A release final é o ponto de corte para submissão e comunicação externa do produto.
+
+## Governança
+
+- Commits devem seguir Conventional Commits para manter o changelog previsível.
+- Mudanças de contrato público devem ser tratadas como alteração relevante de versão.
+- O fluxo de release deve permanecer simples o suficiente para ser auditado manualmente.

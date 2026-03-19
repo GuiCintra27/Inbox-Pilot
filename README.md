@@ -23,6 +23,7 @@ O repositório está sendo organizado para refletir a arquitetura-alvo do produt
 - [Referência técnica](./docs/projects/TECHNICAL-REFERENCE.md)
 - [Deploy](./docs/projects/DEPLOYMENT.md)
 - [CI/CD e releases](./docs/projects/CI-CD-RELEASES.md)
+- [`render.yaml`](./render.yaml) para o backend no Render
 
 ## Documentação interna
 
@@ -51,8 +52,16 @@ make backend-lint
 make backend-test
 ```
 
+## Deploy
+
+- Vercel deve apontar para `frontend/` como root directory
+- Render deve usar [`render.yaml`](./render.yaml) como blueprint do backend
+- `NEXT_PUBLIC_API_BASE_URL` precisa apontar para a URL pública do backend publicado
+- `ALLOWED_ORIGINS` no backend precisa incluir o domínio do frontend publicado
+
 ## Status
 
 - Arquitetura e narrativa documental em alinhamento
 - Fase 1 estruturada com foundation de frontend, backend e CI/release
+- Fase 5 estruturada com CI/CD, deploy e `release-please`
 - Implementação funcional do produto começa na Fase 2

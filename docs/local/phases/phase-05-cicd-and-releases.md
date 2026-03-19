@@ -52,6 +52,7 @@ Automatizar validação, preview, deploy e releases para demonstrar maturidade d
 - branch principal publica frontend e backend
 - release semântica pode ser gerada sem processo manual improvisado
 - documentação do pipeline está correta
+- changelog e tags ficam claros para consumo humano e automatizado
 
 ## Riscos
 
@@ -97,3 +98,6 @@ Não pode alterar:
 - telas da aplicação
 - lógica dos endpoints
 - deploy config além do necessário para versionamento
+
+## Resultado esperado
+O fluxo de release fica ancorado em `release-please`, com changelog gerado automaticamente e versionamento SemVer publicado a partir de Conventional Commits.

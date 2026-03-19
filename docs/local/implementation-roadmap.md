@@ -94,7 +94,7 @@ Documento detalhado:
 
 ### Fase 5 — CI/CD and releases
 
-Status: `planned`
+Status: `completed`
 
 Objetivo:
 - automatizar checks, deploys e versionamento operacional
