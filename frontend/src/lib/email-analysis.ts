@@ -1,5 +1,9 @@
 export type EmailAnalysisCategory = "Produtivo" | "Improdutivo";
 
+export const MAX_UPLOAD_BYTES = 1_048_576;
+export const MAX_EMAIL_TEXT_CHARS = 12_000;
+export const ACCEPTED_FILE_EXTENSIONS = [".txt", ".pdf"] as const;
+
 export interface AnalyzeEmailRequest {
   emailText?: string;
   emailFile?: File | null;
@@ -28,6 +32,14 @@ export class AnalyzeEmailError extends Error {
     this.name = "AnalyzeEmailError";
     this.status = status;
   }
+}
+
+export function formatUploadLimit(bytes = MAX_UPLOAD_BYTES): string {
+  if (bytes >= 1024 * 1024) {
+    return `${Math.round(bytes / (1024 * 1024))}MB`;
+  }
+
+  return `${Math.round(bytes / 1024)}KB`;
 }
 
 export function getApiBaseUrl(): string {
@@ -76,26 +88,76 @@ export function buildAnalyzeFormData(input: AnalyzeEmailRequest): FormData {
   return formData;
 }
 
+export function isAcceptedEmailFile(file: File): boolean {
+  const lowerName = file.name.toLowerCase();
+  return ACCEPTED_FILE_EXTENSIONS.some((extension) => lowerName.endsWith(extension));
+}
+
+export function validateSelectedEmailFile(file: File | null): AnalyzeEmailError | null {
+  if (!file) {
+    return null;
+  }
+
+  if (!isAcceptedEmailFile(file)) {
+    return new AnalyzeEmailError(
+      "Envie apenas arquivos .txt ou .pdf para análise.",
+      415
+    );
+  }
+
+  if (file.size > MAX_UPLOAD_BYTES) {
+    return new AnalyzeEmailError(
+      `O arquivo excede o limite de ${formatUploadLimit()} por análise.`,
+      413
+    );
+  }
+
+  return null;
+}
+
+function normalizeErrorMessage(status: number, fallbackMessage: string): string {
+  switch (status) {
+    case 400:
+      return "Envie um texto válido ou selecione um arquivo não vazio para continuar.";
+    case 413:
+      return `O conteúdo enviado excede o limite permitido. Reduza o texto ou use um arquivo de até ${formatUploadLimit()}.`;
+    case 415:
+      return "Formato inválido. Use apenas arquivos .txt ou .pdf.";
+    case 429:
+      return "Muitas análises em sequência. Aguarde alguns instantes e tente novamente.";
+    case 500:
+      return "A análise não pôde ser concluída agora. Tente novamente em instantes.";
+    default:
+      return fallbackMessage;
+  }
+}
+
 async function readErrorMessage(response: Response): Promise<string> {
   try {
     const payload = (await response.json()) as AnalyzeEmailErrorPayload;
     const detail = payload.detail;
 
     if (typeof detail === "string") {
-      return detail;
+      return normalizeErrorMessage(response.status, detail);
     }
 
     if (Array.isArray(detail) && detail.length > 0 && detail[0]?.msg) {
-      return detail[0].msg;
+      return normalizeErrorMessage(response.status, detail[0].msg);
     }
 
     if (detail && typeof detail === "object" && "msg" in detail && detail.msg) {
-      return detail.msg;
+      return normalizeErrorMessage(response.status, detail.msg);
     }
 
-    return payload.message ?? payload.error ?? `Falha na análise (${response.status}).`;
+    return normalizeErrorMessage(
+      response.status,
+      payload.message ?? payload.error ?? `Falha na análise (${response.status}).`
+    );
   } catch {
-    return `Falha na análise (${response.status}).`;
+    return normalizeErrorMessage(
+      response.status,
+      `Falha na análise (${response.status}).`
+    );
   }
 }
 

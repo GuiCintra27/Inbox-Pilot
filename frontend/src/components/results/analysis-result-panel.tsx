@@ -1,4 +1,9 @@
-import { AlertTriangle, Sparkles, Target, Wand2 } from "lucide-react";
+import {
+  AlertTriangle,
+  Layers3,
+  Sparkles,
+  Target
+} from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -15,125 +20,135 @@ interface AnalysisResultPanelProps {
   className?: string;
 }
 
-function getCategoryTone(category: AnalysisResult["category"]) {
-  if (category === "Produtivo") {
-    return {
-      badge: "border-emerald-500/30 bg-emerald-500/10 text-emerald-700",
-      shell: "from-emerald-500/12 via-transparent to-transparent",
-      accent: "bg-emerald-500"
-    };
-  }
-
-  return {
-    badge: "border-amber-500/30 bg-amber-500/10 text-amber-700",
-    shell: "from-amber-500/12 via-transparent to-transparent",
-    accent: "bg-amber-500"
-  };
+function getCategoryBadgeClass(category: AnalysisResult["category"]) {
+  return category === "Produtivo"
+    ? "bg-[#12213b] text-white"
+    : "bg-[#3c2413] text-white";
 }
 
-function Keywords({ keywords }: { keywords: string[] }) {
-  if (keywords.length === 0) {
-    return <p className="text-sm text-muted-foreground">Sem palavras-chave identificadas.</p>;
+function describeProvider(provider: string) {
+  const [channel, ...rest] = provider.split(":");
+  const model = rest.join(":") || "desconhecido";
+
+  if (channel === "gemini") {
+    return { title: "Provider & Modelo", label: model, tag: "provider principal" };
   }
 
-  return (
-    <div className="flex flex-wrap gap-2" aria-label="Palavras-chave da análise">
-      {keywords.map((keyword) => (
-        <Badge key={keyword} variant="secondary" className="rounded-full bg-muted/80 px-3 py-1 text-xs">
-          {keyword}
-        </Badge>
-      ))}
-    </div>
-  );
+  if (channel === "openrouter") {
+    return { title: "Provider & Modelo", label: model, tag: "fallback externo" };
+  }
+
+  return { title: "Provider & Modelo", label: "Fallback local", tag: model };
 }
 
 function EmptyState() {
   return (
-    <Card className="border-border/70 bg-card/80 backdrop-blur">
-      <CardHeader>
-        <CardTitle className="font-display text-2xl tracking-tight">Resultado da análise</CardTitle>
-        <CardDescription>
-          Envie um email para ver categoria, confiança, justificativa e resposta sugerida em um
-          painel único.
-        </CardDescription>
-      </CardHeader>
-      <CardContent className="grid gap-4 sm:grid-cols-3">
-        {[
-          {
-            icon: Target,
-            title: "Categoria clara",
-            description: "Produtivo ou improdutivo, com leitura rápida do contexto."
-          },
-          {
-            icon: Wand2,
-            title: "Resposta sugerida",
-            description: "Uma versão pronta para reutilizar ou adaptar."
-          },
-          {
-            icon: Sparkles,
-            title: "Detalhe útil",
-            description: "Justificativa, confiança e palavras-chave em uma visão só."
-          }
-        ].map(({ icon: Icon, title, description }) => (
-          <div key={title} className="rounded-3xl border border-border/70 bg-background/80 p-5">
-            <div className="mb-4 flex h-11 w-11 items-center justify-center rounded-2xl bg-foreground text-background">
-              <Icon className="h-5 w-5" />
-            </div>
-            <h3 className="font-display text-lg tracking-tight">{title}</h3>
-            <p className="mt-2 text-sm leading-6 text-muted-foreground">{description}</p>
+    <Card className="overflow-hidden rounded-[16px] bg-[#07091d] text-white">
+      <div className="h-1 w-full bg-[linear-gradient(90deg,#16c8f2_0%,#8b5cf6_55%,#d49b58_100%)]" />
+      <CardHeader className="px-5 pb-4 pt-5">
+        <div className="flex items-start justify-between">
+          <div>
+            <p className="text-[12px] font-semibold text-white">Produtivo</p>
           </div>
-        ))}
+          <div className="text-right">
+            <p className="font-display text-[42px] font-semibold leading-none">98%</p>
+            <p className="mt-1 text-[9px] uppercase tracking-[0.25em] text-white/55">
+              Confiança da IA
+            </p>
+          </div>
+        </div>
+        <div className="mt-5 h-[4px] rounded-full bg-[#12c8f2]" />
+        <div className="mt-2 flex justify-between text-[8px] uppercase tracking-[0.22em] text-white/35">
+          <span>Incerteza</span>
+          <span>Análise concluída</span>
+        </div>
+      </CardHeader>
+      <CardContent className="space-y-4 px-5 pb-5">
+        <div className="grid gap-4">
+          {[
+            {
+              icon: Target,
+              title: "Categoria",
+              description: "Classificação imediata da mensagem."
+            },
+            {
+              icon: Sparkles,
+              title: "Resposta sugerida",
+              description: "Uma versão pronta para adaptação."
+            },
+            {
+              icon: Layers3,
+              title: "Detalhe útil",
+              description: "Justificativa, confiança e palavras-chave em um só lugar."
+            }
+          ].map(({ icon: Icon, title, description }) => (
+            <div
+              key={title}
+              className="rounded-[14px] border border-white/12 bg-white/[0.04] px-4 py-5"
+            >
+              <div className="flex h-11 w-11 items-center justify-center rounded-[14px] bg-white/10 text-white">
+                <Icon className="h-5 w-5" />
+              </div>
+              <h3 className="mt-5 font-display text-[16px] font-medium text-white">{title}</h3>
+              <p className="mt-3 text-[12px] leading-7 text-white/62">{description}</p>
+            </div>
+          ))}
+        </div>
       </CardContent>
     </Card>
   );
 }
 
-export function AnalysisResultPanel({ result, isLoading = false, errorMessage = null, className }: AnalysisResultPanelProps) {
+export function AnalysisResultPanel({
+  result,
+  isLoading = false,
+  errorMessage = null,
+  className
+}: AnalysisResultPanelProps) {
   if (errorMessage) {
     return (
-      <Card className={cn("border-destructive/30 bg-card/80 backdrop-blur", className)}>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2 font-display text-2xl tracking-tight text-destructive">
-            <AlertTriangle className="h-5 w-5" />
-            Não foi possível concluir a análise
-          </CardTitle>
-          <CardDescription className="space-y-2 leading-7 text-muted-foreground">
-            <span>{errorMessage}</span>
-            <span className="block">Revise o texto ou o arquivo enviado e tente novamente.</span>
-          </CardDescription>
-        </CardHeader>
-      </Card>
-    );
+      <Card
+        className={cn(
+          "overflow-hidden rounded-[16px] bg-[#120e1d] text-white",
+          className
+        )}
+      >
+          <CardHeader className="px-5 pb-4 pt-5">
+            <CardTitle className="flex items-center gap-2 font-display text-[28px] text-red-200">
+              <AlertTriangle className="h-5 w-5" />
+              Não foi possível analisar
+            </CardTitle>
+            <CardDescription className="mt-3 text-[13px] leading-7 text-white/65">
+              {errorMessage}
+            </CardDescription>
+            <p className="text-[12px] leading-6 text-white/45">
+              Revise o conteúdo, o tipo do arquivo ou aguarde alguns instantes antes de tentar de
+              novo.
+            </p>
+          </CardHeader>
+        </Card>
+      );
   }
 
   if (isLoading) {
     return (
-      <Card className={cn("border-border/70 bg-card/80 backdrop-blur", className)}>
-        <CardHeader>
-          <CardTitle className="font-display text-2xl tracking-tight">Analisando email</CardTitle>
-          <CardDescription>
-            Estamos preparando o retorno com categoria, confiança e resposta sugerida.
-          </CardDescription>
+      <Card className={cn("overflow-hidden rounded-[16px] bg-[#07091d] text-white", className)}>
+        <div className="h-1 w-full bg-[linear-gradient(90deg,#16c8f2_0%,#8b5cf6_55%,#d49b58_100%)]" />
+        <CardHeader className="px-5 pb-4 pt-5">
+          <div className="flex items-start justify-between">
+            <div className="h-4 w-16 animate-pulse rounded-full bg-white/10" />
+            <div className="space-y-2">
+              <div className="ml-auto h-8 w-16 animate-pulse rounded-xl bg-white/10" />
+              <div className="h-2 w-20 animate-pulse rounded-full bg-white/10" />
+            </div>
+          </div>
+          <div className="mt-5 h-[4px] rounded-full bg-white/10" />
         </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="rounded-3xl border border-border/70 bg-background/80 p-5">
-            <div className="flex items-center justify-between gap-4">
-              <div className="space-y-2">
-                <div className="h-3 w-28 animate-pulse rounded-full bg-muted" />
-                <div className="h-8 w-72 max-w-full animate-pulse rounded-xl bg-muted" />
-              </div>
-              <div className="h-16 w-24 animate-pulse rounded-2xl bg-muted" />
-            </div>
-            <div className="mt-4 space-y-3">
-              <div className="h-3 w-full animate-pulse rounded-full bg-muted" />
-              <div className="h-3 w-5/6 animate-pulse rounded-full bg-muted" />
-              <div className="h-3 w-4/6 animate-pulse rounded-full bg-muted" />
-            </div>
-          </div>
-          <div className="grid gap-4 sm:grid-cols-2">
-            <div className="h-24 animate-pulse rounded-3xl bg-muted/70" />
-            <div className="h-24 animate-pulse rounded-3xl bg-muted/70" />
-          </div>
+        <CardContent className="space-y-4 px-5 pb-5">
+          <div className="h-[46px] animate-pulse rounded-[14px] bg-white/10" />
+          <div className="h-[120px] animate-pulse rounded-[14px] bg-white/10" />
+          <div className="h-[110px] animate-pulse rounded-[14px] bg-white/10" />
+          <div className="h-[78px] animate-pulse rounded-[14px] bg-white/10" />
         </CardContent>
       </Card>
     );
@@ -143,68 +158,112 @@ export function AnalysisResultPanel({ result, isLoading = false, errorMessage = 
     return <EmptyState />;
   }
 
-  const tone = getCategoryTone(result.category);
   const confidencePercent = Math.round(result.confidence * 100);
+  const provider = describeProvider(result.provider);
 
   return (
-    <Card className={cn("overflow-hidden border-border/70 bg-card/80 backdrop-blur", className)}>
-      <div className={cn("h-1 bg-gradient-to-r", tone.accent)} aria-hidden="true" />
-      <CardHeader className={cn("bg-gradient-to-br", tone.shell)}>
-        <div className="flex flex-wrap items-start justify-between gap-4">
-          <div className="space-y-3">
-            <Badge variant="outline" className={cn("w-fit rounded-full border px-3 py-1 text-[11px] uppercase tracking-[0.22em]", tone.badge)}>
+    <Card className={cn("overflow-hidden rounded-[16px] bg-[#07091d] text-white", className)}>
+      <div className="h-1 w-full bg-[linear-gradient(90deg,#16c8f2_0%,#8b5cf6_55%,#d49b58_100%)]" />
+      <CardHeader className="px-5 pb-4 pt-5">
+        <div className="flex items-start justify-between">
+          <div>
+            <Badge
+              className={cn(
+                "rounded-full border-0 px-3 py-1 text-[11px] font-semibold",
+                getCategoryBadgeClass(result.category)
+              )}
+            >
               {result.category}
             </Badge>
-            <CardTitle className="font-display text-2xl tracking-tight sm:text-3xl">
-              O email foi classificado com {confidencePercent}% de confiança.
-            </CardTitle>
-            <CardDescription className="max-w-2xl text-base leading-7">
-              O painel abaixo resume o motivo da decisão e já traz uma resposta sugerida para acelerar a próxima ação.
-            </CardDescription>
           </div>
-          <div className="min-w-[10rem] rounded-3xl border border-border/70 bg-background/80 p-4 shadow-sm">
-            <p className="text-xs uppercase tracking-[0.22em] text-muted-foreground">Confiança</p>
-            <p className="mt-2 font-display text-4xl tracking-tight">{confidencePercent}%</p>
-            <div className="mt-3 h-2 overflow-hidden rounded-full bg-muted" aria-hidden="true">
-              <div className={cn("h-full rounded-full", tone.accent)} style={{ width: `${confidencePercent}%` }} />
-            </div>
+          <div className="text-right">
+            <p className="font-display text-[42px] font-semibold leading-none">{confidencePercent}%</p>
+            <p className="mt-1 text-[9px] uppercase tracking-[0.25em] text-white/55">
+              Confiança da IA
+            </p>
           </div>
         </div>
+        <div className="mt-5 h-[4px] rounded-full bg-[#12c8f2]" />
+        <div className="mt-2 flex justify-between text-[8px] uppercase tracking-[0.22em] text-white/35">
+          <span>Incerteza</span>
+          <span>Análise concluída</span>
+        </div>
       </CardHeader>
-      <CardContent className="grid gap-6 pt-6">
-        <section className="space-y-3 rounded-3xl border border-border/70 bg-background/80 p-5">
-          <h3 className="font-display text-lg tracking-tight">Justificativa</h3>
-          <p className="text-sm leading-7 text-muted-foreground">{result.rationale}</p>
-        </section>
 
-        <section className="space-y-4 rounded-3xl border border-border/70 bg-background/80 p-5">
-          <div className="flex flex-wrap items-center justify-between gap-3">
-            <div>
-              <h3 className="font-display text-lg tracking-tight">Resposta sugerida</h3>
-              <p className="text-sm text-muted-foreground">
-                Use a resposta como ponto de partida para o próximo contato.
-              </p>
+      <CardContent className="space-y-4 px-5 pb-5">
+        <section className="rounded-[14px] border border-white/10 bg-white/[0.04] px-4 py-3.5">
+          <div className="flex items-center gap-3">
+            <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#e8d4b7] text-[#6a4a24]">
+              <Sparkles className="h-4 w-4" />
             </div>
-            <CopyReplyButton text={result.suggestedReply} />
+            <div>
+              <p className="text-[10px] uppercase tracking-[0.16em] text-white/48">{provider.title}</p>
+              <p className="mt-1 text-[12px] font-medium text-white">{provider.label}</p>
+              <p className="mt-1 text-[9px] text-white/45">{provider.tag}</p>
+            </div>
           </div>
-          <Separator />
-          <p className="text-sm leading-7 text-foreground">{result.suggestedReply}</p>
         </section>
 
-        <section className="space-y-3 rounded-3xl border border-border/70 bg-background/80 p-5">
-          <h3 className="font-display text-lg tracking-tight">Palavras-chave</h3>
-          <Keywords keywords={result.keywords} />
+        <section>
+          <div className="mb-2 flex items-center gap-2">
+            <span className="h-2 w-2 rounded-full bg-[#16c8f2]" />
+            <p className="text-[10px] uppercase tracking-[0.22em] text-white/45">Justificativa</p>
+          </div>
+          <div className="rounded-[14px] border border-[#b789f6]/70 bg-transparent px-4 py-3 text-[12px] leading-6 text-white/80">
+            {result.rationale}
+          </div>
         </section>
 
-          <div className="flex flex-wrap items-center gap-2 text-xs uppercase tracking-[0.22em] text-muted-foreground">
-            <span>Provider</span>
-            <span aria-hidden="true">•</span>
-            <span>{result.provider}</span>
+        <section>
+          <div className="mb-2 flex items-center gap-2">
+            <span className="h-2 w-2 rounded-full bg-[#8b5cf6]" />
+            <p className="text-[10px] uppercase tracking-[0.22em] text-white/45">Resposta sugerida</p>
           </div>
-          <p className="text-sm leading-6 text-muted-foreground">
-            O provider indica o caminho real usado na análise e ajuda a rastrear a origem do resultado.
+          <div className="rounded-[14px] border border-white/10 bg-white/[0.04] px-4 py-3 text-[12px] italic leading-7 text-white/82">
+            “{result.suggestedReply}”
+          </div>
+        </section>
+
+        <section>
+          <p className="mb-3 text-[10px] uppercase tracking-[0.22em] text-white/45">
+            Palavras-chave extraídas
           </p>
-        </CardContent>
-      </Card>
+          <div className="flex flex-wrap gap-2">
+            {result.keywords.map((keyword) => (
+              <span
+                key={keyword}
+                className="rounded-full border border-white/10 bg-white/[0.05] px-3 py-1 text-[10px] text-white/78"
+              >
+                {keyword}
+              </span>
+            ))}
+          </div>
+        </section>
+
+        <Separator className="bg-white/10" />
+
+        <div className="flex items-center justify-between gap-4">
+          <button
+            type="button"
+            className="rounded-full bg-white px-5 py-2 text-[12px] font-medium text-slate-950 transition-colors hover:bg-white/90"
+          >
+            Ver leitura completa
+          </button>
+          <div className="flex items-center gap-3">
+            <CopyReplyButton
+              text={result.suggestedReply}
+              label=""
+              copiedLabel=""
+              className="gap-0"
+              buttonClassName="h-8 w-8 rounded-md border-white/10 bg-transparent px-0 text-white hover:bg-white/10"
+              hintClassName="hidden"
+            />
+            <button type="button" className="text-[10px] text-white/35">
+              Baixar JSON
+            </button>
+          </div>
+        </div>
+      </CardContent>
+    </Card>
   );
 }

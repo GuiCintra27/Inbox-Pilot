@@ -9,6 +9,8 @@ import { cn } from "@/lib/utils";
 interface CopyReplyButtonProps {
   text: string;
   className?: string;
+  buttonClassName?: string;
+  hintClassName?: string;
   label?: string;
   copiedLabel?: string;
 }
@@ -16,6 +18,8 @@ interface CopyReplyButtonProps {
 export function CopyReplyButton({
   text,
   className,
+  buttonClassName,
+  hintClassName,
   label = "Copiar resposta",
   copiedLabel = "Copiada"
 }: CopyReplyButtonProps) {
@@ -45,11 +49,16 @@ export function CopyReplyButton({
 
   return (
     <div className={cn("flex items-center gap-3", className)}>
-      <Button type="button" variant="outline" onClick={handleCopy} className="rounded-full">
+      <Button
+        type="button"
+        variant="outline"
+        onClick={handleCopy}
+        className={cn("rounded-full", buttonClassName)}
+      >
         {copied ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
-        <span>{copied ? copiedLabel : label}</span>
+        {label || copiedLabel ? <span>{copied ? copiedLabel : label}</span> : null}
       </Button>
-      <span className="text-xs font-medium text-muted-foreground" aria-live="polite">
+      <span className={cn("text-xs font-medium text-muted-foreground", hintClassName)} aria-live="polite">
         {copied ? "Texto copiado para a área de transferência." : "Pronto para compartilhar a resposta."}
       </span>
     </div>
