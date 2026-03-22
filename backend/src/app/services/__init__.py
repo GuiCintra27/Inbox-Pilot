@@ -1,4 +1,4 @@
-from app.services.analysis import analyze_ingested_content
+from app.services.analysis import analyze_ingested_content, analyze_ingested_content_with_trace
 from app.services.fallback_analysis import (
     FALLBACK_PROVIDER_INVALID_RESPONSE,
     FALLBACK_PROVIDER_NO_OPENAI_KEY,
@@ -9,8 +9,11 @@ from app.services.fallback_analysis import (
 from app.services.ingestion import (
     EmptyInputError,
     FileDecodingError,
+    FileTypeMismatchError,
     IngestedContent,
     IngestionError,
+    InputTooLargeError,
+    PdfPageLimitError,
     UnsupportedFileTypeError,
     extract_text_from_pdf,
     extract_text_from_txt,
@@ -36,8 +39,11 @@ __all__ = [
     "FALLBACK_PROVIDER_PROVIDER_ERROR",
     "EmptyInputError",
     "FileDecodingError",
+    "FileTypeMismatchError",
     "IngestedContent",
     "IngestionError",
+    "InputTooLargeError",
+    "PdfPageLimitError",
     "GeminiAnalysisProvider",
     "OpenRouterAnalysisProvider",
     "ExternalAnalysisResult",
@@ -47,6 +53,7 @@ __all__ = [
     "ExternalTransportError",
     "UnsupportedFileTypeError",
     "analyze_ingested_content",
+    "analyze_ingested_content_with_trace",
     "analyze_with_fallback",
     "extract_text_from_pdf",
     "extract_text_from_txt",
