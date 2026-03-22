@@ -16,6 +16,8 @@
 
 - `GET /health`
 - `POST /analyze`
+- `GET /ops/llm-health`
+- `GET /ops/audit-trail`
 
 ## Entrada principal da API
 
@@ -69,6 +71,14 @@ Nota de contrato:
 - o frontend consome esse campo para rastreabilidade da demo
 - a estrutura do payload não muda entre o caminho principal e o fallback
 
+## Comportamento operacional adicional
+
+- `POST /analyze` devolve `X-Request-ID` em todas as respostas
+- se o cliente enviar `X-Request-ID`, o backend reutiliza o valor
+- os endpoints `GET /ops/llm-health` e `GET /ops/audit-trail` são técnicos e protegidos
+- em ambiente `local`, o acesso aos endpoints `/ops/*` é aceito apenas via loopback
+- fora de `local`, o acesso aos endpoints `/ops/*` exige token operacional
+
 ## Responsabilidades por camada
 
 ### Frontend
@@ -85,6 +95,11 @@ Nota de contrato:
 - classificar o email
 - gerar resposta sugerida
 - devolver resposta consistente para a UI
+
+## Nota de privacidade operacional
+
+- por padrão, o backend não retém corpo bruto de email após o request
+- a camada operacional mantém apenas métricas agregadas e eventos técnicos resumidos
 
 ## Referências adicionais
 

@@ -119,6 +119,7 @@ make backend-test
 
 - Fluxo principal do produto implementado em frontend e backend
 - Análise com Gemini, OpenRouter e fallback local resiliente
+- Hardening de segurança concluído em P0, P1 e P2
 - CI em PR e push para `main`
 - Deploy-alvo documentado para Vercel e Render
 - Releases semânticas e changelog ancorados em `release-please`
@@ -128,5 +129,5 @@ make backend-test
 
 - Interface pronta para demonstração pública
 - Contrato da API estável entre frontend e backend
+- Endpoints operacionais internos protegidos por ambiente e token
 - Documentação operacional e técnica alinhada ao estado real do produto
-- Checklist de lançamento mantido em `docs/local/launch-checklist.md`

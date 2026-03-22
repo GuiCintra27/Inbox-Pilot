@@ -46,6 +46,17 @@ Configuração esperada:
 - `ALLOWED_ORIGINS` incluindo o domínio da Vercel e os hosts locais de desenvolvimento
 - substituir o placeholder `https://<your-frontend-domain>.vercel.app` pelo domínio real do frontend publicado
 
+Configuração opcional dos endpoints operacionais:
+
+- `OPS_ENDPOINTS_ENABLED=true`
+- `OPS_AUTH_HEADER=X-Ops-Token`
+- `OPS_ACCESS_TOKEN=<strong-random-token>`
+
+Política esperada:
+
+- em `APP_ENV=local`, `/ops/*` funciona apenas via loopback
+- fora de `local`, `/ops/*` só deve ser exposto se `OPS_ACCESS_TOKEN` estiver configurado
+
 ## Comunicação entre aplicações
 
 - o frontend deve usar a URL pública do backend por variável de ambiente
