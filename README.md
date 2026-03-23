@@ -111,9 +111,9 @@ make backend-test
 ## Deploy
 
 - Vercel deve apontar para `frontend/` como root directory
-- Render deve usar [`render.yaml`](./render.yaml) como blueprint do backend
+- Render pode usar [`render.yaml`](./render.yaml) como baseline do backend, com secrets e política de auto-deploy ajustados no painel
 - `NEXT_PUBLIC_API_BASE_URL` precisa apontar para a URL pública do backend publicado
-- `ALLOWED_ORIGINS` no backend precisa incluir o domínio do frontend publicado
+- `ALLOWED_ORIGINS` no backend de produção deve incluir apenas os domínios públicos do frontend
 
 ## Status
 

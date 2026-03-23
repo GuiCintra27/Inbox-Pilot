@@ -8,8 +8,6 @@ from app.domain.ingestion import IngestedContent
 from app.schemas import Category
 
 FALLBACK_PROVIDER_NO_PROVIDER_KEY = "fallback:no-provider-key"
-# Backward-compatible alias for old tests/docs that may still import the older name.
-FALLBACK_PROVIDER_NO_OPENAI_KEY = FALLBACK_PROVIDER_NO_PROVIDER_KEY
 FALLBACK_PROVIDER_PROVIDER_ERROR = "fallback:provider-error"
 FALLBACK_PROVIDER_INVALID_RESPONSE = "fallback:invalid-response"
 

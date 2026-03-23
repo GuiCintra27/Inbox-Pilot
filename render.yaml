@@ -5,13 +5,59 @@ services:
     rootDir: backend
     buildCommand: pip install .
     startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
-    autoDeploy: true
+    healthCheckPath: /health
     envVars:
+      - key: APP_NAME
+        value: Inbox Pilot Backend
       - key: APP_ENV
         value: production
-      - key: OPENAI_MODEL
-        value: gpt-5-mini
-      - key: OPENAI_API_KEY
-        sync: false
       - key: ALLOWED_ORIGINS
-        value: http://localhost:3000,http://127.0.0.1:3000,https://<your-frontend-domain>.vercel.app
+        value: https://<your-frontend-domain>.vercel.app
+      - key: GEMINI_MODEL
+        value: gemini-2.5-flash
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: OPENROUTER_MODEL
+        value: google/gemini-2.0-flash-001
+      - key: OPENROUTER_API_KEY
+        sync: false
+      - key: MAX_EMAIL_TEXT_CHARS
+        value: "12000"
+      - key: MAX_UPLOAD_BYTES
+        value: "1048576"
+      - key: MAX_PDF_PAGES
+        value: "10"
+      - key: MAX_PROVIDER_INPUT_CHARS
+        value: "8000"
+      - key: RATE_LIMIT_ANALYZE_REQUESTS
+        value: "20"
+      - key: RATE_LIMIT_WINDOW_SECONDS
+        value: "60"
+      - key: PROVIDER_TIMEOUT_SECONDS
+        value: "12"
+      - key: PROVIDER_RETRY_ATTEMPTS
+        value: "1"
+      - key: PROVIDER_RETRY_BACKOFF_MS
+        value: "250"
+      - key: CIRCUIT_BREAKER_FAILURE_THRESHOLD
+        value: "3"
+      - key: CIRCUIT_BREAKER_OPEN_SECONDS
+        value: "120"
+      - key: REDACTION_ENABLED
+        value: "true"
+      - key: ZERO_CONTENT_RETENTION
+        value: "true"
+      - key: AUDIT_TRACE_ENABLED
+        value: "true"
+      - key: AUDIT_RECENT_EVENTS_LIMIT
+        value: "200"
+      - key: AUDIT_EVENT_MAXLEN
+        value: "120"
+      - key: AUDIT_REQUEST_ID_HEADER
+        value: X-Request-ID
+      - key: OPS_ENDPOINTS_ENABLED
+        value: "false"
+      - key: OPS_AUTH_HEADER
+        value: X-Ops-Token
+      - key: OPS_ACCESS_TOKEN
+        sync: false

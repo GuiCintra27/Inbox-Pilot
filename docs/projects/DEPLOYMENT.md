@@ -10,7 +10,7 @@ A solução será publicada em duas frentes:
 ## Configuração base
 
 - frontend: projeto Vercel apontando para o diretório `frontend/`
-- backend: blueprint do Render usando [`render.yaml`](../../render.yaml)
+- backend: Render com configuração manual ou blueprint base via [`render.yaml`](../../render.yaml)
 - variáveis do frontend: `NEXT_PUBLIC_API_BASE_URL`
 - variáveis do backend: `APP_ENV`, `ALLOWED_ORIGINS`, `GEMINI_API_KEY`, `GEMINI_MODEL`, `OPENROUTER_API_KEY`, `OPENROUTER_MODEL`
 
@@ -40,11 +40,14 @@ Responsabilidades do deploy:
 
 Configuração esperada:
 
-- blueprint do Render via [`render.yaml`](../../render.yaml)
+- blueprint do Render via [`render.yaml`](../../render.yaml) ou configuração manual equivalente
 - runtime Python apontando para `backend/`
 - start command: `uvicorn app.main:app --host 0.0.0.0 --port $PORT`
-- `ALLOWED_ORIGINS` incluindo o domínio da Vercel e os hosts locais de desenvolvimento
+- health check path: `/health`
+- `ALLOWED_ORIGINS` contendo apenas os domínios públicos do frontend em produção
 - substituir o placeholder `https://<your-frontend-domain>.vercel.app` pelo domínio real do frontend publicado
+- se o serviço for criado pelo painel, preferir `Auto-Deploy: After CI Checks Pass`
+- manter secrets (`GEMINI_API_KEY`, `OPENROUTER_API_KEY`, `OPS_ACCESS_TOKEN`) no painel do Render, não no blueprint
 
 Configuração opcional dos endpoints operacionais:
 
@@ -56,6 +59,7 @@ Política esperada:
 
 - em `APP_ENV=local`, `/ops/*` funciona apenas via loopback
 - fora de `local`, `/ops/*` só deve ser exposto se `OPS_ACCESS_TOKEN` estiver configurado
+- se não houver necessidade operacional imediata, preferir `OPS_ENDPOINTS_ENABLED=false` em produção
 
 ## Comunicação entre aplicações
 

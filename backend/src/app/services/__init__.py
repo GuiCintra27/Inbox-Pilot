@@ -1,7 +1,6 @@
 from app.services.analysis import analyze_ingested_content, analyze_ingested_content_with_trace
 from app.services.fallback_analysis import (
     FALLBACK_PROVIDER_INVALID_RESPONSE,
-    FALLBACK_PROVIDER_NO_OPENAI_KEY,
     FALLBACK_PROVIDER_NO_PROVIDER_KEY,
     FALLBACK_PROVIDER_PROVIDER_ERROR,
     analyze_with_fallback,
@@ -35,7 +34,6 @@ from app.services.llm_analysis import (
 __all__ = [
     "FALLBACK_PROVIDER_INVALID_RESPONSE",
     "FALLBACK_PROVIDER_NO_PROVIDER_KEY",
-    "FALLBACK_PROVIDER_NO_OPENAI_KEY",
     "FALLBACK_PROVIDER_PROVIDER_ERROR",
     "EmptyInputError",
     "FileDecodingError",
