@@ -47,20 +47,18 @@ export function EmailAnalysisDemo() {
 
   return (
     <section>
-      <div className="grid items-start gap-10 lg:grid-cols-[0.9fr_0.1fr]">
-        <div className="max-w-[700px]">
-          <h2 className="font-display text-[48px] font-semibold leading-[1.02] tracking-[-0.05em] text-slate-950">
+      <div className="max-w-[720px]">
+        <h2 className="font-display text-[clamp(2.5rem,3.4vw,3rem)] font-semibold leading-[1.02] tracking-[-0.05em] text-slate-950">
             Analisar email
-          </h2>
-          <p className="mt-3 text-[14px] leading-7 text-slate-500">
-            Insira o conteúdo do email ou faça o upload de um arquivo.
-            <span className="ml-1 text-[#19c8f2]">Prioridade: arquivo &gt; texto ⓘ</span>
-          </p>
-        </div>
+        </h2>
+        <p className="mt-3 text-[14px] leading-7 text-slate-500">
+          Insira o conteúdo do email ou faça o upload de um arquivo.
+          <span className="ml-1 text-[#19c8f2]">Prioridade: arquivo &gt; texto ⓘ</span>
+        </p>
       </div>
 
-      <div className="mt-10 grid items-start gap-12 lg:grid-cols-[1fr_428px]">
-        <div>
+      <div className="mt-10 grid items-start gap-10 xl:grid-cols-[minmax(760px,1fr)_460px] 2xl:grid-cols-[minmax(860px,1fr)_500px] 2xl:gap-14">
+        <div className="min-w-0">
           <EmailAnalysisForm
             key={formInstanceKey}
             initialEmailText={prefillText}
@@ -77,7 +75,7 @@ export function EmailAnalysisDemo() {
           result={analysisResult}
           isLoading={isSubmitting}
           errorMessage={errorMessage}
-          className="border-0 shadow-[0_40px_80px_-40px_rgba(15,23,42,0.62)]"
+          className="w-full max-w-[500px] border-0 shadow-[0_40px_80px_-40px_rgba(15,23,42,0.62)] xl:sticky xl:top-6"
         />
       </div>
     </section>

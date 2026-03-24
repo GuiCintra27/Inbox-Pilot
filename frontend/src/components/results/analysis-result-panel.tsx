@@ -242,13 +242,7 @@ export function AnalysisResultPanel({
 
         <Separator className="bg-white/10" />
 
-        <div className="flex items-center justify-between gap-4">
-          <button
-            type="button"
-            className="rounded-full bg-white px-5 py-2 text-[12px] font-medium text-slate-950 transition-colors hover:bg-white/90"
-          >
-            Ver leitura completa
-          </button>
+        <div className="flex items-center justify-end gap-3">
           <div className="flex items-center gap-3">
             <CopyReplyButton
               text={result.suggestedReply}

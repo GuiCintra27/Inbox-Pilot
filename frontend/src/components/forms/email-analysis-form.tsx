@@ -262,44 +262,51 @@ export function EmailAnalysisForm({
 
           <Separator className="bg-[#efede8]" />
 
-          <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-            <div className="grid gap-1 text-[11px] text-slate-500">
-              <span>Arquivo tem prioridade quando texto e upload são enviados juntos.</span>
-              <span>O provider real aparece no resultado para facilitar a leitura.</span>
+          <div className="grid gap-4">
+            <div className="rounded-2xl border border-amber-300/80 bg-amber-50 px-4 py-3 text-[12px] leading-6 text-amber-800">
+              <span className="font-medium">Atenção:</span> a primeira análise pode levar até 30s,
+              porque o backend em produção ativa sob demanda no Render.
             </div>
-            <div className="flex items-center gap-5">
-              <button
-                type="button"
-                className="text-[12px] font-medium text-slate-600 transition-colors hover:text-slate-900"
-                onClick={() => {
-                  setEmailText("");
-                  handleFileChange(null);
-                  clearError();
-                  clearResult();
-                  setLocalError(null);
-                  setIsSuccess(false);
-                  onInteractionReset?.();
-                  if (fileInputRef.current) {
-                    fileInputRef.current.value = "";
-                  }
-                }}
-              >
-                Limpar
-              </button>
-              <Button
-                type="submit"
-                className="h-[36px] rounded-full border-0 bg-[#19c8f2] px-5 text-[12px] font-medium text-white shadow-none hover:bg-[#17bce4]"
-                disabled={isSubmitting}
-              >
-                {isSubmitting ? (
-                  <>
-                    <Loader2 className="h-4 w-4 animate-spin" />
-                    Analisando
-                  </>
-                ) : (
-                  "Analisar email"
-                )}
-              </Button>
+
+            <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+              <div className="grid gap-1 text-[11px] text-slate-500">
+                <span>Arquivo tem prioridade quando texto e upload são enviados juntos.</span>
+                <span>O provider real aparece no resultado para facilitar a leitura.</span>
+              </div>
+              <div className="flex items-center gap-5">
+                <button
+                  type="button"
+                  className="text-[12px] font-medium text-slate-600 transition-colors hover:text-slate-900"
+                  onClick={() => {
+                    setEmailText("");
+                    handleFileChange(null);
+                    clearError();
+                    clearResult();
+                    setLocalError(null);
+                    setIsSuccess(false);
+                    onInteractionReset?.();
+                    if (fileInputRef.current) {
+                      fileInputRef.current.value = "";
+                    }
+                  }}
+                >
+                  Limpar
+                </button>
+                <Button
+                  type="submit"
+                  className="h-[36px] rounded-full border-0 bg-[#19c8f2] px-5 text-[12px] font-medium text-white shadow-none hover:bg-[#17bce4]"
+                  disabled={isSubmitting}
+                >
+                  {isSubmitting ? (
+                    <>
+                      <Loader2 className="h-4 w-4 animate-spin" />
+                      Analisando
+                    </>
+                  ) : (
+                    "Analisar email"
+                  )}
+                </Button>
+              </div>
             </div>
           </div>
 

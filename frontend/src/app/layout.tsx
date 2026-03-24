@@ -1,15 +1,15 @@
 import type { ReactNode } from "react";
 import type { Metadata } from "next";
-import { Manrope, Space_Grotesk } from "next/font/google";
+import { Roboto_Flex } from "next/font/google";
 
 import "./globals.css";
 
-const manrope = Manrope({
+const robotoFlexSans = Roboto_Flex({
   subsets: ["latin"],
   variable: "--font-sans"
 });
 
-const spaceGrotesk = Space_Grotesk({
+const robotoFlexDisplay = Roboto_Flex({
   subsets: ["latin"],
   variable: "--font-display"
 });
@@ -25,7 +25,10 @@ export default function RootLayout({
   children: ReactNode;
 }>) {
   return (
-    <html lang="pt-BR" className={`${manrope.variable} ${spaceGrotesk.variable}`}>
+    <html
+      lang="pt-BR"
+      className={`${robotoFlexSans.variable} ${robotoFlexDisplay.variable}`}
+    >
       <body>{children}</body>
     </html>
   );
