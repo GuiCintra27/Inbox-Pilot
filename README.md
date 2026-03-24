@@ -2,6 +2,16 @@
 
 Inbox Pilot é uma solução para automatizar a triagem de emails operacionais, classificando mensagens em `Produtivo` ou `Improdutivo` e sugerindo uma resposta automática coerente com o contexto.
 
+## O que este projeto demonstra
+
+- ingestão de emails por texto livre, `.txt` e `.pdf`
+- classificação operacional em `Produtivo` ou `Improdutivo`
+- geração de resposta sugerida orientada ao contexto do email
+- pré-processamento NLP clássico com normalização, stopwords e stemming
+- orquestração de providers de AI com fallback resiliente
+- deploy público em Vercel + Render
+- pipeline de CI/CD, releases e hardening de segurança além do mínimo esperado para o desafio
+
 ## Direção do projeto
 
 - Frontend em Next.js com foco em experiência visual forte para demo
@@ -14,6 +24,12 @@ Inbox Pilot é uma solução para automatizar a triagem de emails operacionais, 
 ## Objetivo do produto
 
 Inbox Pilot está pronto para apresentação: o fluxo principal funciona de ponta a ponta, o CI/CD está ativo, o deploy-alvo está documentado e a narrativa pública foi ajustada para mostrar um produto final, não um protótipo técnico.
+
+## URLs públicas
+
+- frontend: `https://inbox-pilot-mocha.vercel.app/`
+- backend: `https://inbox-pilot-backend.onrender.com/`
+- health check: `https://inbox-pilot-backend.onrender.com/health`
 
 ## Documentação principal
 
@@ -89,6 +105,23 @@ URLs locais:
 - backend: `http://localhost:8000`
 - health check: `http://localhost:8000/health`
 
+## Comandos de validação
+
+Backend:
+
+```bash
+make backend-lint
+make backend-test
+```
+
+Frontend:
+
+```bash
+make frontend-lint
+make frontend-typecheck
+make frontend-build
+```
+
 Comandos úteis:
 
 ```bash
@@ -120,6 +153,7 @@ make backend-test
 
 - Fluxo principal do produto implementado em frontend e backend
 - Análise com Gemini, OpenRouter e fallback local resiliente
+- Pipeline NLP clássico implementado antes da camada de análise
 - Hardening de segurança concluído em P0, P1 e P2
 - CI em PR e push para `main`
 - Deploy-alvo documentado para Vercel e Render

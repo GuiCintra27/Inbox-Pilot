@@ -85,11 +85,13 @@ A suíte desta fase valida três níveis:
 ### Subagent A — OpenAI integration
 
 Responsável por:
+
 - cliente OpenAI
 - prompt
 - parsing e validação
 
 Não pode alterar:
+
 - UI do frontend
 - workflows de release
 - extractors de arquivo sem necessidade direta
@@ -97,11 +99,13 @@ Não pode alterar:
 ### Subagent B — Local fallback
 
 Responsável por:
+
 - heurística local
 - consistência básica entre categorias
 - resiliência do caminho offline
 
 Não pode alterar:
+
 - layout do frontend
 - pipeline do GitHub
 - shape do payload global
@@ -109,10 +113,12 @@ Não pode alterar:
 ### Subagent C — AI QA and docs
 
 Responsável por:
+
 - testes com mock
 - testes sem chave
 - documentação técnica da decisão
 
 Não pode alterar:
+
 - design system da UI
 - configuração base da aplicação sem necessidade de teste
