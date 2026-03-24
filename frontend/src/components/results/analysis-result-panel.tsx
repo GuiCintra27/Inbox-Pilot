@@ -22,8 +22,8 @@ interface AnalysisResultPanelProps {
 
 function getCategoryBadgeClass(category: AnalysisResult["category"]) {
   return category === "Produtivo"
-    ? "bg-[#12213b] text-white"
-    : "bg-[#3c2413] text-white";
+    ? "border border-emerald-400/35 bg-emerald-500/18 text-emerald-100 shadow-[0_0_18px_rgba(16,185,129,0.18)]"
+    : "border border-amber-400/35 bg-amber-500/18 text-amber-100 shadow-[0_0_18px_rgba(245,158,11,0.18)]";
 }
 
 function describeProvider(provider: string) {
@@ -169,7 +169,7 @@ export function AnalysisResultPanel({
           <div>
             <Badge
               className={cn(
-                "rounded-full border-0 px-3 py-1 text-[11px] font-semibold",
+                "rounded-full px-4 py-1.5 text-[13px] font-semibold tracking-[0.01em]",
                 getCategoryBadgeClass(result.category)
               )}
             >
@@ -249,7 +249,7 @@ export function AnalysisResultPanel({
               label=""
               copiedLabel=""
               className="gap-0"
-              buttonClassName="h-8 w-8 rounded-md border-white/10 bg-transparent px-0 text-white hover:bg-white/10"
+              buttonClassName="h-9 w-9 rounded-lg border-white/10 bg-white/[0.03] px-0 text-white/90 hover:border-cyan-300/40 hover:bg-cyan-400/12 hover:text-cyan-100"
               hintClassName="hidden"
             />
             <button type="button" className="text-[10px] text-white/35">
