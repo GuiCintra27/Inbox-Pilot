@@ -5,6 +5,11 @@
 - Frontend: Next.js com App Router
 - Backend: FastAPI
 - Parsing de arquivo: `.txt` e `.pdf`
+- Pré-processamento NLP:
+  - normalização textual
+  - detecção de idioma
+  - remoção de stopwords (`pt-BR` e `en-US`)
+  - stemming com Snowball
 - Engine de análise:
   - Gemini como provedor principal
   - OpenRouter como fallback externo
@@ -92,6 +97,7 @@ Nota de contrato:
 
 - receber a entrada
 - extrair texto do arquivo
+- aplicar pré-processamento NLP clássico antes da análise
 - classificar o email
 - gerar resposta sugerida
 - devolver resposta consistente para a UI

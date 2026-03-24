@@ -6,6 +6,7 @@ Inbox Pilot é uma solução para automatizar a triagem de emails operacionais, 
 
 - Frontend em Next.js com foco em experiência visual forte para demo
 - Backend em FastAPI para upload, parsing e classificação
+- Pré-processamento NLP com normalização, detecção de idioma, remoção de stopwords e stemming
 - Deploy separado: Vercel no frontend e Render no backend
 - Integração com Gemini como provider principal, OpenRouter como fallback externo e fallback local resiliente
 - Fluxo de CI/CD no GitHub com releases versionadas

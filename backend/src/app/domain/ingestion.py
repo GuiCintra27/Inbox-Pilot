@@ -1,10 +1,24 @@
 from __future__ import annotations
 
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import Literal
 
 IngestionSource = Literal["text", "txt_file", "pdf_file"]
 IngestionFileType = Literal["txt", "pdf"]
+
+
+@dataclass(frozen=True, slots=True)
+class NlpArtifacts:
+    language: str = "unknown"
+    tokens: tuple[str, ...] = ()
+    filtered_tokens: tuple[str, ...] = ()
+    stems: tuple[str, ...] = ()
+    processed_text: str = ""
+    stopwords_removed: int = 0
+
+    @classmethod
+    def empty(cls, *, language: str = "unknown") -> "NlpArtifacts":
+        return cls(language=language)
 
 
 @dataclass(frozen=True, slots=True)
@@ -15,6 +29,7 @@ class IngestedContent:
     language_confidence: float
     file_name: str | None = None
     file_type: IngestionFileType | None = None
+    nlp: NlpArtifacts = field(default_factory=NlpArtifacts.empty)
 
 
 class IngestionError(ValueError):

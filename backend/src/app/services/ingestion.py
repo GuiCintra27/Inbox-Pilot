@@ -8,6 +8,7 @@ from pypdf import PdfReader
 
 from app.core.config import Settings, get_settings
 from app.core.language import detect_language
+from app.core.nlp import build_nlp_artifacts
 from app.core.text import normalize_text
 from app.domain.ingestion import (
     EmptyInputError,
@@ -75,6 +76,7 @@ def ingest_free_text(email_text: str, *, settings: Settings | None = None) -> In
         source="text",
         language=language.language,
         language_confidence=language.confidence,
+        nlp=build_nlp_artifacts(normalized_text, language=language.language),
     )
 
 
@@ -113,6 +115,7 @@ def ingest_file_content(
         language_confidence=language.confidence,
         file_name=file_name,
         file_type=file_type,
+        nlp=build_nlp_artifacts(normalized_text, language=language.language),
     )
 
 
