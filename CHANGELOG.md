@@ -4,6 +4,15 @@ All notable changes to this project will be documented in this file.
 
 The repository uses `release-please` to generate and maintain releases from Conventional Commits.
 
+## [0.3.0](https://github.com/GuiCintra27/Inbox-Pilot/compare/v0.2.0...v0.3.0) (2026-03-24)
+
+
+### Features
+
+* add classical nlp preprocessing pipeline ([3b1bbd1](https://github.com/GuiCintra27/Inbox-Pilot/commit/3b1bbd1c6bbf0aae65b1402d6378d896dbf16e1d))
+* polish frontend landing and interaction ([301c1f3](https://github.com/GuiCintra27/Inbox-Pilot/commit/301c1f316a470785b19c8c7ca8a390638ad87c85))
+* polish result panel emphasis ([4ca830e](https://github.com/GuiCintra27/Inbox-Pilot/commit/4ca830e8ca7769800021a60dc44adac813c561c3))
+
 ## [0.2.0](https://github.com/GuiCintra27/Inbox-Pilot/compare/v0.1.0...v0.2.0) (2026-03-22)
 
 
